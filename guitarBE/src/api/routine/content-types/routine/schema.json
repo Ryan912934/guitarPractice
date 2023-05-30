@@ -1,0 +1,27 @@
+{
+  "kind": "collectionType",
+  "collectionName": "routines",
+  "info": {
+    "singularName": "routine",
+    "pluralName": "routines",
+    "displayName": "Routine",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Name": {
+      "type": "string"
+    },
+    "owner": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "description": {
+      "type": "text"
+    }
+  }
+}

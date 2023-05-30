@@ -1,0 +1,29 @@
+{
+  "kind": "collectionType",
+  "collectionName": "routine_exercises",
+  "info": {
+    "singularName": "routine-exercise",
+    "pluralName": "routine-exercises",
+    "displayName": "RoutineExercise",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "routine": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::routine.routine"
+    },
+    "exercise": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::exercise.exercise"
+    },
+    "order": {
+      "type": "integer"
+    }
+  }
+}
