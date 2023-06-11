@@ -27,9 +27,6 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./GuitarPractice
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -38,12 +35,10 @@ jobs:
         with:
           node-version: 18
           cache: 'npm'
-      - name: Correct Folder
-        run: cd GuitarPractice
       - name: Install dependencies
-        run: npm install
+        run: cd ./GuitarPractice | npm install
       - name: Build
-        run: npm run build
+        run: cd ./GuitarPractice | npm run build
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Upload artifact
