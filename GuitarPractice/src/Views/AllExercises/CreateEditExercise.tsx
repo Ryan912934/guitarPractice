@@ -41,7 +41,8 @@ export function CreateEditExercise(){
             guide: '',
             id: undefined,
             metronome: undefined,
-            video: '',}}
+            video: '',
+        comments: []}}
     }
 
     const validiate = () => {
