@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom"
 import { UserContextType, UserContext } from "../../App";
 import {  AllExercisesType, ExerciseType, getExercise } from "../../utils/exercisesApi";
@@ -28,7 +28,7 @@ export function PracticeExercise(){
         return await getExercise(userContext.userJWT!, parseInt(id));
     } 
 
-    const {data, error, isError, isLoading } = useQuery<ExerciseType, any>(`exercise-${id}`, fetchExercises) 
+    const {data, error, isError, isLoading } = useQuery<ExerciseType, any>([`exercise-${id}`], fetchExercises) 
     // first argument is a string to cache and track the query result
     if(isLoading){
         return <div>Loading...</div>

@@ -1,9 +1,9 @@
 import { useContext, useRef, useState } from "react";
-import { useMutation, useQuery, useQueryClient } from "react-query";
 import { UserContextType, UserContext } from "../../App";
 import { createRoutine, getMyRoutines, RoutinesType } from "../../utils/routineApi";
 import { FaPlus, FaCheck, FaTimes, FaEdit, FaMusic } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 
 function Routines() {
@@ -25,7 +25,7 @@ function Routines() {
         return await getMyRoutines(userContext.userJWT!);
     }
 
-    const { data, error, isError, isLoading } = useQuery<RoutinesType, any>('exercises', fetchExercises)
+    const { data, error, isError, isLoading } = useQuery<RoutinesType, any>(['exercises'], fetchExercises)
     // first argument is a string to cache and track the query result
     if (isLoading) {
         return <div>Loading...</div>

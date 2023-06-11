@@ -35,6 +35,7 @@ export interface ExerciseType {
         id: number|undefined,
         metronome: boolean|undefined,
         video: string,
+        comments: string[]
     }
 }
 
@@ -48,6 +49,8 @@ export async function getExercise(jwt:string, id:number):Promise<ExerciseType>{
             Authorization: `Bearer ${jwt}`
         }
     })
+
+    console.log(data.data.comments)
     return data;
 }
 

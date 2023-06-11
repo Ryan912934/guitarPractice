@@ -62,6 +62,19 @@ export default factories.createCoreController('api::exercise.exercise', ({ strap
 
         data.Owner = data.Owner.id;
 
+        let comments = await strapi.entityService.findMany('api::exercise-history.exercise-history',{
+          filters : {
+            exercise: {
+              id: id
+            }
+          },
+          fields: 'comments',
+          limit: 5,
+          sort: {createdAt : 'desc'}
+        });
+
+        data.comments = comments.map(i => i.comments)
+
         return data;
     },
 
@@ -85,7 +98,6 @@ export default factories.createCoreController('api::exercise.exercise', ({ strap
 
         return entry;
     },
-
     async update(ctx){
 
         const id = ctx.params.id;

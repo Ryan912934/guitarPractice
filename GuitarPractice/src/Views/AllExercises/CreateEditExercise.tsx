@@ -2,7 +2,8 @@ import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { UserContextType, UserContext } from "../../App";
 import { ExerciseType, createUpdateExercise, getExercise } from "../../utils/exercisesApi";
-import { useQueryClient } from "react-query";
+import { useQueryClient } from "@tanstack/react-query";
+
 
 
 type ExerciseParams = {

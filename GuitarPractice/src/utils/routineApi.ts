@@ -30,9 +30,11 @@ export interface RoutineType {
         id: number,
         order: number,
         exercise: {
+            id: number,
             Name: string,
             Description: string
-        }
+        },
+        duration?: number,
     }[]
 }
 
@@ -109,6 +111,28 @@ export async function moveRoutine(jwt: string, id: number, up: boolean) {
 export async function addExerciseToRoutine(jwt: string, routineId: number, exerciseId: number ){
 
     const data = await axios.post(`http://localhost:1337/api/routine-exercise/`, {routineId, exerciseId}, {
+        headers: {
+            "Content-Type": 'application/json',
+            Authorization: `Bearer ${jwt}`
+        }
+    })
+
+    return data;
+}
+
+export async function deleteExerciseFromRoutine(jwt: string,  routineId: number, order: number){
+    const data = await axios.delete(`http://localhost:1337/api/routine-exercise/${routineId}/${order}`,  {
+        headers: {
+            "Content-Type": 'application/json',
+            Authorization: `Bearer ${jwt}`
+        }
+    })
+
+    return data;
+}
+
+export async function updateRoutineExerciseDuration(jwt: string, routineExerciseId: number, duration:number){
+    const data = await axios.post(`http://localhost:1337/api/routine-exercise/${routineExerciseId}`, {duration},  {
         headers: {
             "Content-Type": 'application/json',
             Authorization: `Bearer ${jwt}`

@@ -27,7 +27,7 @@ export default {
         method: 'POST',
         path: '/exercise/:id',
         handler: 'exercise.update',
-      },
+      }
 
     ]
   }

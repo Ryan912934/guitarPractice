@@ -1,8 +1,9 @@
-import { useMutation, useQuery, useQueryClient } from "react-query";
+
 import { getMyExercises, AllExercisesType, ExerciseType } from "../../utils/exercisesApi";
 import { UserContext, UserContextType } from "../../App";
 import { useContext, useState } from "react";
 import { addExerciseToRoutine } from "../../utils/routineApi";
+import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 
 interface AddExerciseProps {
     routineId: number
@@ -26,7 +27,7 @@ export function AddExercise(props: AddExerciseProps) {
         return d;
     }
 
-    const { data, error, isError, isLoading } = useQuery<AllExercisesType, any>('exercises', fetchExercises)
+    const { data, error, isError, isLoading } = useQuery<AllExercisesType, any>(['exercises'], fetchExercises)
     // first argument is a string to cache and track the query result
     if (isLoading) {
         return <div>Loading...</div>

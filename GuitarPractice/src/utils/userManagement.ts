@@ -54,3 +54,19 @@ export function userName(jwt:string|undefined):string|undefined{
     return '?'
 
 }
+
+interface IUsername{
+
+}
+
+export async function getUsername(jwt: string, id: number): Promise<IUsername> {
+    const data = await axios.get(`http://localhost:1337/api/username/${id}`,
+        {
+            headers: {
+                "Content-Type": 'application/json',
+                Authorization: `Bearer ${jwt}`
+            }
+        })
+
+    return data.data;
+}

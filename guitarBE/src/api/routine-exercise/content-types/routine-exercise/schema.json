@@ -24,6 +24,9 @@
     },
     "order": {
       "type": "integer"
+    },
+    "duration": {
+      "type": "integer"
     }
   }
 }

@@ -17,8 +17,18 @@ export default {
             handler: 'routine-exercise.down',
           },
           {
+            method: 'DELETE',
+            path: '/routine-exercise/:routineId/:order',
+            handler: 'routine-exercise.delete'
+          },
+          {
             method: 'POST',
             path: '/routine-exercise/',
             handler: 'routine-exercise.add'
+          },
+          {
+            method: 'POST',
+            path: '/routine-exercise/:id',
+            handler: 'routine-exercise.updateDuration'
           }
     ]};

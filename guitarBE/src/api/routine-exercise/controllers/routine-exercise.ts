@@ -69,6 +69,32 @@ export default factories.createCoreController('api::routine-exercise.routine-exe
 
     },
 
+    async delete(ctx) {
+        const order = ctx.params.order;
+        const routineId = ctx.params.routineId;
+
+
+        const orders = await strapi.entityService.findMany('api::routine-exercise.routine-exercise', {
+            filters: {
+                routine: {
+                    id: routineId
+                },
+                order: order
+            }
+        })
+
+        strapi.log.debug(`o ${order} r ${routineId}`)
+        strapi.log.debug(JSON.stringify(orders))
+        // const reduced = orders.filter((i)=> i.exercise.id === exerciseId);
+        // strapi.log.debug(reduced)
+
+        const d = await strapi.entityService.delete('api::routine-exercise.routine-exercise', orders[0].id);
+
+        return d;
+
+        
+    },
+
     async add(ctx) {
         const body = ctx.request.body;
 
@@ -102,6 +128,19 @@ export default factories.createCoreController('api::routine-exercise.routine-exe
         })
 
         return d;
+    },
+
+    async updateDuration(ctx){
+        const id = ctx.params.id;
+
+        let d = await strapi.entityService.update('api::routine-exercise.routine-exercise', id, {
+            data: {
+                duration: ctx.request.body.duration
+            }
+        })
+
+        return d;
+
     },
 
     async down(ctx) {

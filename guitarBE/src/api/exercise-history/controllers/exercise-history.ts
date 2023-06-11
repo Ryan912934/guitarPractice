@@ -26,12 +26,16 @@ export default factories.createCoreController('api::exercise-history.exercise-hi
     async create(ctx) {
         const body = ctx.request.body;
 
-        const entry = await strapi.entityService.create('api::exercise-history.exercise-history', {
+        let entry;
+        strapi.log.debug(body.time);
+        strapi.log.debug(body.exerciseId)
+        try {
+          entry = await strapi.entityService.create('api::exercise-history.exercise-history', {
             data: {
               BPM: body.bpm,
               speed: body.speed,
               comments: body.comments,
-              lengthMinutes: body.time,
+              lengthMinutes: `${body.time}`,
               owner: {
                 set: [ctx.state.user.id]
               },
@@ -40,6 +44,11 @@ export default factories.createCoreController('api::exercise-history.exercise-hi
               }
             },
           });
+        } catch (error) {
+          strapi.log.debug(error)
+        } 
+
+          strapi.log.debug('done')
 
         return entry;
     }

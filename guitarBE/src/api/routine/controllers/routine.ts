@@ -38,7 +38,7 @@ export default factories.createCoreController('api::routine.routine', ({ strapi 
       
 
       let exercises = await strapi.entityService.findMany('api::routine-exercise.routine-exercise', {
-        fields: ['order'],
+        fields: ['order', 'duration'],
         populate: ['exercise'],
         filters: { 
           routine: id
