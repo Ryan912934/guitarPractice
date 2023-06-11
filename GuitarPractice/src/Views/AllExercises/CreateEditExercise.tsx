@@ -35,16 +35,6 @@ export function CreateEditExercise(){
     const nav = useNavigate();
 
 
-    const empty = async ():Promise<ExerciseType> => {
-        return {data:{Description: '',
-            Name: '',
-            guide: '',
-            id: undefined,
-            metronome: undefined,
-            video: '',
-        comments: []}}
-    }
-
     const validiate = () => {
         const newErr:Err = {};
         
