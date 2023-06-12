@@ -15,7 +15,7 @@ export interface AllExercisesType {
 export async function getMyExercises(jwt:string):Promise<AllExercisesType>{
 
 
-    const data = await axios.get('http://localhost:1337/api/exercises',
+    const data = await axios.get('${import.meta.env.VITE_API_URL}/exercises',
     {
         headers: {
             "Content-Type": 'application/json',
@@ -42,7 +42,7 @@ export interface ExerciseType {
 export async function getExercise(jwt:string, id:number):Promise<ExerciseType>{
  
     
-    const data = await axios.get(`http://localhost:1337/api/exercise/${id}`,
+    const data = await axios.get(`${import.meta.env.VITE_API_URL}/exercise/${id}`,
     {
         headers: {
             "Content-Type": 'application/json',
@@ -55,7 +55,7 @@ export async function getExercise(jwt:string, id:number):Promise<ExerciseType>{
 }
 
 export async function addExercisePractice(jwt:string, exerciseId:number, time:number, bpm:number|undefined, speed:number|undefined, comments:string){
-    const data = await axios.post(`http://localhost:1337/api/exercise-history/`,
+    const data = await axios.post(`${import.meta.env.VITE_API_URL}/exercise-history/`,
     {
         exerciseId,
         time,
@@ -89,7 +89,7 @@ export async function createUpdateExercise(jwt:string, name:string, description:
 
     if(id){
         console.log('Update exercise')
-        data = await axios.post(`http://localhost:1337/api/exercise/${id}/`, body, {
+        data = await axios.post(`${import.meta.env.VITE_API_URL}/exercise/${id}/`, body, {
             headers: {
                 "Content-Type": 'application/json',
                 Authorization: `Bearer ${jwt}`
@@ -97,7 +97,7 @@ export async function createUpdateExercise(jwt:string, name:string, description:
         })
     } else {
         console.log('create exercise')
-        data = await axios.post(`http://localhost:1337/api/exercise`, body, {
+        data = await axios.post(`${import.meta.env.VITE_API_URL}/exercise`, body, {
             headers: {
                 "Content-Type": 'application/json',
                 Authorization: `Bearer ${jwt}`
