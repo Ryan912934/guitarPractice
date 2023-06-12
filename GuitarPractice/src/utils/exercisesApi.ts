@@ -1,4 +1,5 @@
 import axios from "axios"
+import { apiUrl } from "./apiUrl";
 
 export interface AllExercisesType {
     status: number,
@@ -15,7 +16,7 @@ export interface AllExercisesType {
 export async function getMyExercises(jwt:string):Promise<AllExercisesType>{
 
 
-    const data = await axios.get('${import.meta.env.VITE_API_URL}/exercises',
+    const data = await axios.get('${apiUrl()}/exercises',
     {
         headers: {
             "Content-Type": 'application/json',
@@ -42,7 +43,7 @@ export interface ExerciseType {
 export async function getExercise(jwt:string, id:number):Promise<ExerciseType>{
  
     
-    const data = await axios.get(`${import.meta.env.VITE_API_URL}/exercise/${id}`,
+    const data = await axios.get(`${apiUrl()}/exercise/${id}`,
     {
         headers: {
             "Content-Type": 'application/json',
@@ -55,7 +56,7 @@ export async function getExercise(jwt:string, id:number):Promise<ExerciseType>{
 }
 
 export async function addExercisePractice(jwt:string, exerciseId:number, time:number, bpm:number|undefined, speed:number|undefined, comments:string){
-    const data = await axios.post(`${import.meta.env.VITE_API_URL}/exercise-history/`,
+    const data = await axios.post(`${apiUrl()}/exercise-history/`,
     {
         exerciseId,
         time,
@@ -89,7 +90,7 @@ export async function createUpdateExercise(jwt:string, name:string, description:
 
     if(id){
         console.log('Update exercise')
-        data = await axios.post(`${import.meta.env.VITE_API_URL}/exercise/${id}/`, body, {
+        data = await axios.post(`${apiUrl()}/exercise/${id}/`, body, {
             headers: {
                 "Content-Type": 'application/json',
                 Authorization: `Bearer ${jwt}`
@@ -97,7 +98,7 @@ export async function createUpdateExercise(jwt:string, name:string, description:
         })
     } else {
         console.log('create exercise')
-        data = await axios.post(`${import.meta.env.VITE_API_URL}/exercise`, body, {
+        data = await axios.post(`${apiUrl()}/exercise`, body, {
             headers: {
                 "Content-Type": 'application/json',
                 Authorization: `Bearer ${jwt}`
