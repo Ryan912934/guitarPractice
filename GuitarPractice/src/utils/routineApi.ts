@@ -9,7 +9,7 @@ export interface RoutinesType {
 }
 
 export async function getMyRoutines(jwt: string): Promise<RoutinesType> {
-    const data = await axios.get('http://localhost:1337/api/routine/',
+    const data = await axios.get(`${import.meta.env.VITE_API_URL}/routine/`,
         {
             headers: {
                 "Content-Type": 'application/json',
@@ -39,7 +39,7 @@ export interface RoutineType {
 }
 
 export async function getRoutine(jwt: string, id: number): Promise<RoutineType> {
-    const data = await axios.get(`http://localhost:1337/api/routine/${id}`,
+    const data = await axios.get(`${import.meta.env.VITE_API_URL}/routine/${id}`,
         {
             headers: {
                 "Content-Type": 'application/json',
@@ -51,7 +51,7 @@ export async function getRoutine(jwt: string, id: number): Promise<RoutineType> 
 }
 
 export async function createRoutine(jwt: string, name: string, description: string) {
-    const data = await axios.post('http://localhost:1337/api/routine/',
+    const data = await axios.post(`${import.meta.env.VITE_API_URL}/routine/`,
         {
             name,
             description
@@ -67,7 +67,7 @@ export async function createRoutine(jwt: string, name: string, description: stri
 }
 
 export async function updateRoutineName(jwt:string, txt:string, id: number){
-    const data = await axios.post(`http://localhost:1337/api/routine/${id}/`, {
+    const data = await axios.post(`${import.meta.env.VITE_API_URL}/routine/${id}/`, {
         name: txt
     }, {
         headers: {
@@ -81,7 +81,7 @@ export async function updateRoutineName(jwt:string, txt:string, id: number){
 }
 
 export async function updateRoutineDescription(jwt:string, txt:string, id: number){
-    const data = await axios.post(`http://localhost:1337/api/routine/${id}/`, {
+    const data = await axios.post(`${import.meta.env.VITE_API_URL}/routine/${id}/`, {
         description: txt
     }, {
         headers: {
@@ -97,7 +97,7 @@ export async function updateRoutineDescription(jwt:string, txt:string, id: numbe
 export async function moveRoutine(jwt: string, id: number, up: boolean) {
     const dir = up ? 'up' : 'down';
 
-    const data = await axios.post(`http://localhost:1337/api/routine-exercise/${id}/${dir}`, {}, {
+    const data = await axios.post(`${import.meta.env.VITE_API_URL}/routine-exercise/${id}/${dir}`, {}, {
         headers: {
             "Content-Type": 'application/json',
             Authorization: `Bearer ${jwt}`
@@ -110,7 +110,7 @@ export async function moveRoutine(jwt: string, id: number, up: boolean) {
 
 export async function addExerciseToRoutine(jwt: string, routineId: number, exerciseId: number ){
 
-    const data = await axios.post(`http://localhost:1337/api/routine-exercise/`, {routineId, exerciseId}, {
+    const data = await axios.post(`${import.meta.env.VITE_API_URL}/routine-exercise/`, {routineId, exerciseId}, {
         headers: {
             "Content-Type": 'application/json',
             Authorization: `Bearer ${jwt}`
@@ -121,7 +121,7 @@ export async function addExerciseToRoutine(jwt: string, routineId: number, exerc
 }
 
 export async function deleteExerciseFromRoutine(jwt: string,  routineId: number, order: number){
-    const data = await axios.delete(`http://localhost:1337/api/routine-exercise/${routineId}/${order}`,  {
+    const data = await axios.delete(`${import.meta.env.VITE_API_URL}/routine-exercise/${routineId}/${order}`,  {
         headers: {
             "Content-Type": 'application/json',
             Authorization: `Bearer ${jwt}`
@@ -132,7 +132,7 @@ export async function deleteExerciseFromRoutine(jwt: string,  routineId: number,
 }
 
 export async function updateRoutineExerciseDuration(jwt: string, routineExerciseId: number, duration:number){
-    const data = await axios.post(`http://localhost:1337/api/routine-exercise/${routineExerciseId}`, {duration},  {
+    const data = await axios.post(`${import.meta.env.VITE_API_URL}/routine-exercise/${routineExerciseId}`, {duration},  {
         headers: {
             "Content-Type": 'application/json',
             Authorization: `Bearer ${jwt}`
