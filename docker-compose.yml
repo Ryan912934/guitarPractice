@@ -3,7 +3,7 @@ services:
     volumes:
       - type: bind
         source: /data
-        target: /data
+        target: /opt/data
     build: ./guitarBE/
   nginx:
     build: ./nginx/
