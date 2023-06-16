@@ -21,4 +21,4 @@ services:
     volumes:
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
-    comand: certonly --webroot -w /var/www/certbot --force-renewal --email {email} -d {domain} --agress-tos
+    command: certonly --webroot -w /var/www/certbot --force-renewal --email {email} -d {domain} --agress-tos
