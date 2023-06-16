@@ -1,10 +1,11 @@
 import axios from 'axios';
 import jwt_decode from "jwt-decode";
+import { apiUrl } from './apiUrl';
 
 export async function login(username:string, password:string, setUserJWT:(jwt:string)=>void){
 
     const res = await axios
-      .post('http://localhost:1337/api/auth/local', {
+      .post(`${apiUrl()}/auth/local`, {
         identifier: username,
         password: password,
       });
@@ -60,7 +61,7 @@ interface IUsername{
 }
 
 export async function getUsername(jwt: string, id: number): Promise<IUsername> {
-    const data = await axios.get(`http://localhost:1337/api/username/${id}`,
+    const data = await axios.get(`${apiUrl()}/username/${id}`,
         {
             headers: {
                 "Content-Type": 'application/json',
