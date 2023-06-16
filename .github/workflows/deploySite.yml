@@ -38,7 +38,7 @@ jobs:
       - name: Install dependencies
         run: cd ./GuitarPractice && npm install
       - name: Build
-        run: cd ./GuitarPractice && export VITE_API_URL=http://api.practicethatguitar:1337/api && npm run build
+        run: cd ./GuitarPractice && export VITE_API_URL=https://api.practicethatguitar/api && npm run build
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Upload artifact
