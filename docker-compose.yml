@@ -1,0 +1,7 @@
+services:
+  strapi:
+    build: ./guitarBe/
+  nginx:
+    build: ./nginx/
+    ports:
+      - "80:80"
