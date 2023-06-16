@@ -1,5 +1,9 @@
 services:
   strapi:
+    volumes:
+      - type: bind
+        source: /data
+        target: /data
     build: ./guitarBE/
   nginx:
     build: ./nginx/
