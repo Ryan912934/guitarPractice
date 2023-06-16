@@ -49,15 +49,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
-  strapi:
-    steps:
-      - name: multiple command
-          uses: appleboy/ssh-action@v0.1.10
-          with:
-            host: ${{ secrets.HOST }}
-            username: ${{ secrets.USERNAME }}
-            key: ${{ secrets.KEY }}
-            port: ${{ secrets.PORT }}
-            script: |
-              whoami
-              ls -al
