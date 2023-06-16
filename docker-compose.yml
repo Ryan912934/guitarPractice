@@ -4,7 +4,6 @@ services:
       - type: bind
         source: /data
         target: /opt/data
-    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
     build: ./guitarBE/
   nginx:
     build: ./nginx/
@@ -12,6 +11,7 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
     volumes:
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
