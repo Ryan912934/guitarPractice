@@ -1,6 +1,6 @@
 services:
   strapi:
-    build: ./guitarBe/
+    build: ./guitarBE/
   nginx:
     build: ./nginx/
     ports:
