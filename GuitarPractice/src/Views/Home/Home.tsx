@@ -1,8 +1,6 @@
 import { useContext } from "react";
 import { UserContext, UserContextType } from "../../App";
 import Login from "../Login/Login";
-import { useQuery } from "@tanstack/react-query";
-import { getUsername } from "../../utils/userManagement";
 import jwtDecode from "jwt-decode";
 
 
@@ -26,11 +24,7 @@ function Home(){
 
     return <div>
         <h1>Home</h1>
-        <p>username: {userContext.userJWT && JSON.stringify(jwtDecode(userContext.userJWT))}</p>
-        {/* <p>Is LoggedIn: {userContext.isLoggedIn().toString()}</p> */}
-        <button className="bg-slate-800 text-white rounded-lg m-2 p-2" onClick={clickButton}>Login Test</button>
-        <button className="bg-slate-800 text-white rounded-lg m-2 p-2" onClick={clickButton2}>Login Real</button>
-        <div className="bg-slate-400 m-5 pt-4 pb-4 rounded-xl pl-5 pr-5"><Login /></div>
+
     </div>
 }
 

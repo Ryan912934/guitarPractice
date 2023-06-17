@@ -45,29 +45,22 @@ interface token {
     iat: number,
     exp: number
 }
-export function userName(jwt:string|undefined):string|undefined{
-    if(!jwt){return undefined};
 
-    // const token = jwt_decode<token>(jwt);
-
-    // return token.user.username;
-
-    return '?'
-
-}
 
 interface IUsername{
-
+    username: string
 }
 
-export async function getUsername(jwt: string, id: number): Promise<IUsername> {
-    const data = await axios.get(`${apiUrl()}/username/${id}`,
+export async function getUsername(jwt: string): Promise<IUsername> {
+    console.log(`using jwt ${jwt}`)
+    const data = await axios.get(`${apiUrl()}/whoami`,
         {
             headers: {
                 "Content-Type": 'application/json',
                 Authorization: `Bearer ${jwt}`
             }
         })
+    console.log(data)
 
     return data.data;
 }
