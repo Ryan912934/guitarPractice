@@ -16,7 +16,7 @@ export interface AllExercisesType {
 export async function getMyExercises(jwt:string):Promise<AllExercisesType>{
 
 
-    const data = await axios.get('${apiUrl()}/exercises',
+    const data = await axios.get(`${apiUrl()}/exercises`,
     {
         headers: {
             "Content-Type": 'application/json',

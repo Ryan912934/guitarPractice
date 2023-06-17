@@ -1,6 +1,6 @@
 import { Component, createContext, useContext, useEffect, useRef, useState } from 'react'
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
-import { isLoggedIn, login, userName } from './utils/userManagement'
+import { BrowserRouter, Routes, Route, Link, useNavigate } from 'react-router-dom'
+import { getUsername, isLoggedIn, login } from './utils/userManagement'
 import AllExercises from './Views/AllExercises/AllExercises'
 import Home from './Views/Home/Home'
 import Routines from './Views/Routines/Routines'
@@ -13,15 +13,17 @@ import { PracticeRoutine } from './Views/Routines/PracticeRoutine'
 import { CreateEditExercise } from './Views/AllExercises/CreateEditExercise'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { Footer } from './components/Footer/Footer'
+import Login from './Views/Login/Login'
 
-export const UserContext = createContext<UserContextType>({ userJWT: 'a', setUserJWT: (s) => { }, login: (a: string, b: string) => { }, isLoggedIn: () => { return false }, username: () => { return undefined },  waiting: false });
+export const UserContext = createContext<UserContextType>({ userJWT: 'a', setUserJWT: (s) => { }, login: (a: string, b: string) => { }, isLoggedIn: () => { return false }, username: '', waiting: false });
 
 export interface UserContextType {
   userJWT: string | undefined,
   setUserJWT: (s: string) => void,
   login: (a: string, b: string) => void,
   isLoggedIn: () => boolean,
-  username: () => string | undefined,
+  username: string,
   waiting: boolean
 }
 
@@ -32,6 +34,7 @@ function App() {
   const localJwt = localStorage.getItem('guitarJWT');
   const [userJWT, setUserJWT] = useState<string | undefined>(localJwt ?? undefined);
   const [waiting, setWaiting] = useState(false);
+  const [username, setUsername] = useState('');
 
   const toastId = useRef<Id | null>(null);
   const notify = () => toastId.current = toast("Logging In", { type: toast.TYPE.INFO, autoClose: false });
@@ -47,19 +50,32 @@ function App() {
       notify();
       login(user, pass, setUserJWT).then(() => {
         updateSuccess()
+        getUsername(userJWT!).then(d => {
+          setUsername(d.username);
+
+        })
       }).catch((e) => {
         updateFailure()
       })
-      .finally(()=>{
-        setWaiting(false);
-      })
+        .finally(() => {
+          setWaiting(false);
+        })
     },
-    isLoggedIn: () => { return isLoggedIn(userJWT, setUserJWT) },
-    username: () => {
-      if (!userJWT) { return 'no jwt' }
-      return userName(userJWT);
+    isLoggedIn: () => {
+      if (isLoggedIn(userJWT, setUserJWT)) {
+        return true
+      }
+      setUsername('');
+      return false;
     },
+    username,
     waiting
+  }
+
+  if(isLoggedIn(userJWT, setUserJWT) && username.length === 0){
+    getUsername(userJWT!).then(d => {
+      setUsername(d.username);
+    })
   }
 
   const queryClient = new QueryClient();
@@ -67,12 +83,13 @@ function App() {
   return (
     <UserContext.Provider value={userObj}>
       <QueryClientProvider client={queryClient}>
-        <div className='bg-gray-600 h-screen absolute w-screen'>
+        <div className=' h-screen absolute w-screen'>
           <BrowserRouter>
-            <NavBar />
+            <NavBar username={userObj.username} logout={()=>{setUserJWT(''); setUsername(''); localStorage.removeItem('guitarJWT')}}/>
             <ToastContainer />
             <Routes>
               <Route path='/' element={<Home />} />
+              <Route path ='/login' element={<Login />} />
               <Route path='/exercises' element={<AllExercises />} />
               <Route path='/routines' element={<Routines />} />
               <Route path='/exercise/:id' element={<PracticeExercise />} />
@@ -84,6 +101,7 @@ function App() {
 
           </BrowserRouter>
         </div>
+
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </UserContext.Provider>

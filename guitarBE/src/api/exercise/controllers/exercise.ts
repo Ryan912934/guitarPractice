@@ -7,6 +7,21 @@ import { factories } from '@strapi/strapi'
 
 export default factories.createCoreController('api::exercise.exercise', ({ strapi }) => ({
 
+    async getName(ctx) {
+
+      if(!ctx.state.user.id){return}
+
+      const data = await strapi.entityService.findOne('plugin::users-permissions.user', ctx.state.user.id, {
+        populate: {
+            "Username": true
+        }
+    });
+
+    return data;
+
+
+    },
+
     async getAll(ctx) {
 
         // strapi.log.info(ctx.state.user.id);
@@ -45,6 +60,8 @@ export default factories.createCoreController('api::exercise.exercise', ({ strap
         return entries;
 
     },
+
+
 
     async getOne(ctx){
 

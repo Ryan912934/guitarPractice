@@ -8,6 +8,11 @@
 
 export default {
     routes: [
+      {
+        method: 'GET',
+        path: '/whoami',
+        handler: 'exercise.getName'
+      },
       { // Path defined with a URL parameter
         method: 'GET',
         path: '/exercises',
