@@ -6,6 +6,7 @@ import { UserContextType, UserContext } from "../../App";
 import { deleteExerciseFromRoutine, getRoutine, moveRoutine, RoutineType, updateRoutineDescription, updateRoutineExerciseDuration, updateRoutineName } from "../../utils/routineApi";
 import { AddExercise } from "./AddExercise";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { PageDiv } from "../../components/PageDiv";
 
 type RoutineParams = {
     id: string
@@ -124,7 +125,7 @@ export function EditRoutine() {
     }
 
 
-    return <div className="bg-slate-400 m-3 rounded-lg p-2">
+    return <PageDiv>
         {editName && <div className="flex">
             <input type="text" value={name} onChange={(e) => { setName(e.target.value) }}></input>
             <FaSave className="hover:cursor-pointer" onClick={saveName} />
@@ -176,5 +177,5 @@ export function EditRoutine() {
         <div>
                     <AddExercise routineId={+id!}/>
         </div>
-    </div>
+    </PageDiv>
 }

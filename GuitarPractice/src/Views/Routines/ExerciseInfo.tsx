@@ -24,23 +24,25 @@ export function ExerciseInfo(props: ExerciseInfoProps) {
     }
 
     const putInBox = (i: JSX.Element) => {
-        return <div className="bg-slate-700 rounded-md">
+        return <div className="bg-slate-700 rounded-md p-2">
             {i}
         </div>
     }
 
-    return <div className="pl-4 pr-4">
-        <h2>Exercise Name: {data.data.Name}</h2>
-        <p className="pt-3">Description: {data.data.Description}</p>
-        <p className="pt-3">Guide: {data.data.guide}</p>
-
-
-        {putInBox(<><p className="text-white">Past Comments:</p>
-            {data.data.comments.map(c => c && (
-                <div className="bg-slate-800 text-white p-3 rounded-md m-3 pb-2">
-                    <p>{c}</p>
-                </div>
-            ))}</>)}
+    return <div className="flex space-x-2 pl-4 pr-4 ">
+        <div className="w-1/2">
+            <h2>Exercise Name: {data.data.Name}</h2>
+            <p className="pt-3">Description: {data.data.Description}</p>
+            <p className="pt-3">Guide: {data.data.guide}</p>
+        </div>
+        <div className="w-1/2">
+           <p className=" ">Past Comments:</p>
+                {data.data.comments.map(c => c && (
+                    <div className="bg-blue-500 text-white p-1 rounded-lg m-3 pb-2">
+                        <p>{c}</p>
+                    </div>
+                ))}
+        </div>
     </div>
 
 }

@@ -4,6 +4,7 @@ import { createRoutine, getMyRoutines, RoutinesType } from "../../utils/routineA
 import { FaPlus, FaCheck, FaTimes, FaEdit, FaMusic } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { PageDiv } from "../../components/PageDiv";
 
 
 function Routines() {
@@ -92,7 +93,7 @@ function Routines() {
         </tr>
     }
 
-    return <div className="bg-slate-400 m-4 rounded-lg">
+    return <PageDiv>
         <table className="min-w-full text-left text-sm ">
             <thead className="text-lg">
                 <tr>
@@ -115,7 +116,7 @@ function Routines() {
             </tbody>
         </table>
 
-    </div >
+    </PageDiv >
 
 
 }

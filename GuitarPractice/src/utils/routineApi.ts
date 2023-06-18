@@ -47,7 +47,6 @@ export async function getRoutine(jwt: string, id: number): Promise<RoutineType> 
                 Authorization: `Bearer ${jwt}`
             }
         })
-
     return data.data;
 }
 

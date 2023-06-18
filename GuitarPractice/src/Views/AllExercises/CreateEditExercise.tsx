@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { UserContextType, UserContext } from "../../App";
 import { ExerciseType, createUpdateExercise, getExercise } from "../../utils/exercisesApi";
 import { useQueryClient } from "@tanstack/react-query";
+import { PageDiv } from "../../components/PageDiv";
 
 
 
@@ -94,7 +95,7 @@ export function CreateEditExercise(){
     }
 
     const inputClass = 'w-full';
-    return <div className="bg-slate-400 p-2 m-2 rounded-lg">
+    return <PageDiv>
 
             {!id && `Create New Routine`}
             {id && `Edit Routine - ${name}`}
@@ -122,5 +123,5 @@ export function CreateEditExercise(){
                 <Link to={'/exercises'} ><button className="p-2 m-2 hover:cursor-pointer bg-slate-800 text-white rounded-lg">Cancel</button> </Link>
                 <button onClick={submit} className="p-2 m-2 hover:cursor-pointer bg-slate-800 text-white rounded-lg">Save</button>
             </div>
-    </div>
+    </PageDiv>
 }

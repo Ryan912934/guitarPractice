@@ -4,6 +4,7 @@ import { UserContext, UserContextType } from "../../App";
 import { AllExercisesType, getMyExercises } from "../../utils/exercisesApi";
 import { FaEdit } from "react-icons/fa";
 import { useQuery } from "@tanstack/react-query";
+import { PageDiv } from "../../components/PageDiv";
 
 
 function AllExercises(){
@@ -24,7 +25,7 @@ function AllExercises(){
         return <div>Error! </div>
     }
 
-    return <div className="bg-slate-400 m-4 p-1 rounded-lg">
+    return <PageDiv>
         <Link to={'/exercise/new'}> <button className="bg-slate-800 text-white rounded-md m-2 p-1">Create Exercise</button> </Link>
         <table className="min-w-full text-left text-sm font-light">
             <thead>
@@ -48,7 +49,7 @@ function AllExercises(){
                     </tr>)}
             </tbody>
         </table>
-    </div>
+    </PageDiv>
 
 }
 
