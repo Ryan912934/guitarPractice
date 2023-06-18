@@ -85,7 +85,7 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <div className=' h-screen absolute w-screen'>
           <BrowserRouter>
-            <NavBar username={userObj.username} logout={()=>{setUserJWT(''); setUsername(''); localStorage.removeItem('guitarJWT')}}/>
+            <NavBar username={userObj.username} logout={()=>{setUserJWT(''); setUsername(''); localStorage.removeItem('guitarJWT')}} loggedIn={isLoggedIn(userJWT, setUserJWT)}/>
             <ToastContainer />
             <Routes>
               <Route path='/' element={<Home />} />

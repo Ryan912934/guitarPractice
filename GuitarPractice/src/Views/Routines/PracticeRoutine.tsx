@@ -8,6 +8,7 @@ import { useTimer } from "../../hooks/useTimers";
 import { addExercisePractice } from "../../utils/exercisesApi";
 import { Id, toast } from "react-toastify";
 import { confirmAlert } from "react-confirm-alert";
+import { PageDiv } from "../../components/PageDiv";
 
 
 export function PracticeRoutine() {
@@ -78,7 +79,7 @@ export function PracticeRoutine() {
     const clickStart = () => {
         setEState({
             started: true,
-            exercise: 1,
+            exercise: 0,
             finished: false,
             submitted: false
         })
@@ -127,7 +128,7 @@ export function PracticeRoutine() {
     }
 
     const isMoreExercises = (): boolean => {
-        return eState.exercise < data.exercises.length;
+        return eState.exercise < data.exercises.length - 1;
     }
 
     const pauseTimer = () => {
@@ -141,7 +142,7 @@ export function PracticeRoutine() {
     const clickNextExercise = () => {
 
         exercisePracticeMut.mutate({
-            exerciseId: data.exercises[eState.exercise - 1].exercise.id,
+            exerciseId: data.exercises[eState.exercise ].exercise.id,
             timeMinutes: +(timer.curTime / (1000 * 60)).toFixed(2),
             comments: exerciseComments
         })
@@ -150,7 +151,7 @@ export function PracticeRoutine() {
     const clickFinish = () => {
         setTotalPracticeTime(totalPracticeTime + timer.curTime);
         exercisePracticeMut.mutate({
-            exerciseId: data.exercises[eState.exercise - 1].exercise.id,
+            exerciseId: data.exercises[eState.exercise].exercise.id,
             timeMinutes: +(timer.curTime / (1000 * 60)).toFixed(2),
             comments: exerciseComments
         })
@@ -158,6 +159,8 @@ export function PracticeRoutine() {
             ...eState,
             finished: true
         })
+        console.log('setting finished')
+
     }
 
     if (eState.finished) {
@@ -174,14 +177,17 @@ export function PracticeRoutine() {
         </div>
     }
 
+    if(eState.exercise >= data.exercises.length){
+        console.log(eState)
+        return <p>Err</p>
+    }
 
-    return <div className="bg-slate-400 m-4 rounded-lg">
+    return <PageDiv>
         <h1 className="ml-3 text-lg font-bold">{data.routine.Name}</h1>
         <p className="ml-4 pb-10">{data.routine.description}</p>
-        {/* <p className="ml-4">On Exercise Number {eState.exercise}</p> */}
-        {eState.exercise !== -1 && <ExerciseInfo id={eState.exercise} />}
+        {eState.exercise !== -1 && <ExerciseInfo id={data.exercises[eState.exercise].exercise.id} />}
         {!inExercise && <button className="bg-slate-700 text-white rounded-lg p-2 ml-4 mt-5" onClick={startCurExercise}>Start Exercise</button>}
-        {inExercise && <p className="pl-4 font-bold pt-3">{timer.countDownDisplay(data!.exercises![eState.exercise! - 1]!.duration! || 0)}</p>}
+        {inExercise && <p className="pl-4 font-bold pt-3">{timer.countDownDisplay(data!.exercises![eState.exercise]!.duration! || 0)}</p>}
         {inExercise && <p className="pl-4 pt-3">Total time for exercise {timer.totalPracticeTime()}</p>}
         
         {inExercise && <div><h3 className="pl-4 font-bold pt-3">Comments on exercise</h3><textarea className="ml-4 w-3/4" value={exerciseComments} onChange={(e) => { setExerciseComments(e.target.value) }} ></textarea></div>}
@@ -190,5 +196,5 @@ export function PracticeRoutine() {
         {inExercise && !timer.running && <button onClick={resumeTimer} className="bg-slate-700 text-white rounded-lg p-2 m-2">Resume Timer</button>}
         {inExercise && isMoreExercises() && <button onClick={clickNextExercise} className="bg-slate-700 text-white rounded-lg p-2"> Finish and Move to next exercise</button>}
         {inExercise && !isMoreExercises() && <button onClick={clickFinish} className="bg-slate-700 text-white rounded-lg p-2">Finish Practice Routine</button>}
-    </div>
+    </PageDiv>
 }

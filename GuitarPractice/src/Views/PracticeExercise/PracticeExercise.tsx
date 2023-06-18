@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom"
 import { UserContextType, UserContext } from "../../App";
 import {  AllExercisesType, ExerciseType, getExercise } from "../../utils/exercisesApi";
 import { LogExercise } from "./LogExercise";
+import { PageDiv } from "../../components/PageDiv";
 
 type ExerciseParams = {
     id: string
@@ -37,7 +38,7 @@ export function PracticeExercise(){
         return <div>Error! </div>
     }
 
-    return <div className="p-4 bg-gray-300 m-4 rounded-lg">
+    return <PageDiv>
         <h2>{data!.data.Name}</h2>
         <p>{data!.data.Description}</p>
         <p>{data!.data.guide}</p>
@@ -46,6 +47,6 @@ export function PracticeExercise(){
         <button className="p-2 bg-blue-400 text-white hover:bg-blue-800 m-1 rounded-lg" onClick={()=>{setLogExerciseOpen(true)}}>Log Practice</button>
         {logExerciseOpen && <LogExercise exerciseId={parseInt(id)} closeView={()=>{setLogExerciseOpen(false)}}/>}
 
-    </div>
+    </PageDiv>
 }
 
