@@ -7,9 +7,9 @@ import { ExerciseInfo } from "./ExerciseInfo";
 import { useTimer } from "../../hooks/useTimers";
 import { addExercisePractice } from "../../utils/exercisesApi";
 import { Id, toast } from "react-toastify";
-import { confirmAlert } from "react-confirm-alert";
 import { PageDiv } from "../../components/PageDiv";
-
+import Toggle from 'react-toggle'
+import { SongList } from "./SongList";
 
 export function PracticeRoutine() {
 
@@ -36,6 +36,7 @@ export function PracticeRoutine() {
     const timer = useTimer();
     const [inExercise, setInExercise] = useState(false);
     const [exerciseComments, setExerciseComments] = useState('');
+    const [showSongs, setShowSongs] = useState(false);
 
     const toastId = useRef<Id|null>(null);
     const notify = () => toastId.current = toast("Saving", { type: toast.TYPE.INFO, autoClose: false });
@@ -110,16 +111,16 @@ export function PracticeRoutine() {
 
     if (data.exercises.length === 0) {
         return <div className="bg-slate-400 m-4 rounded-lg">
-            <h1 className="ml-3 text-lg font-bold">{data.routine.Name}</h1>
-            <p className="ml-4">{data.routine.description}</p>
+            <h1 className=" text-lg font-bold">{data.routine.Name}</h1>
+            <p className="">{data.routine.description}</p>
             <h2>No Exercises To Practice</h2>
         </div>
     }
 
     if (!eState.started) {
         return <div className="bg-slate-400 m-4 rounded-lg">
-            <h1 className="ml-3 text-lg font-bold">{data.routine.Name}</h1>
-            <p className="ml-4">{data.routine.description}</p>
+            <h1 className="text-lg font-bold">{data.routine.Name}</h1>
+            <p className="">{data.routine.description}</p>
             <div className="flex justify-center w-full "><button onClick={clickStart} className="bg-slate-700 rounded-lg text-white p-2 hover:cursor-pointer">Start Practice  (Will take approximately {data.exercises.reduce((a, c) => {
                 if (c.duration) { return a + c.duration }
                 return a;
@@ -170,8 +171,8 @@ export function PracticeRoutine() {
             return `${m} minutes ${s} seconds`
         }
         return <div className="bg-slate-400 m-4 rounded-lg">
-            <h1 className="ml-3 text-lg font-bold">{data.routine.Name}</h1>
-            <p className="ml-4 pb-10">{data.routine.description}</p>
+            <h1 className="text-lg font-bold">{data.routine.Name}</h1>
+            <p className="pb-10">{data.routine.description}</p>
             <p>All finished, you spent {time()} practicing</p>
 
         </div>
@@ -183,14 +184,18 @@ export function PracticeRoutine() {
     }
 
     return <PageDiv>
-        <h1 className="ml-3 text-lg font-bold">{data.routine.Name}</h1>
-        <p className="ml-4 pb-10">{data.routine.description}</p>
+        <h1 className="text-lg font-bold">{data.routine.Name}</h1>
+        <p className="pb-10">{data.routine.description}</p>
         {eState.exercise !== -1 && <ExerciseInfo id={data.exercises[eState.exercise].exercise.id} />}
-        {!inExercise && <button className="bg-slate-700 text-white rounded-lg p-2 ml-4 mt-5" onClick={startCurExercise}>Start Exercise</button>}
+        {!inExercise && <button className="bg-slate-700 text-white rounded-lg p-2 mt-5" onClick={startCurExercise}>Start Exercise</button>}
         {inExercise && <p className="pl-4 font-bold pt-3">{timer.countDownDisplay(data!.exercises![eState.exercise]!.duration! || 0)}</p>}
+        
+        {inExercise && <div><p>Show Song List</p><Toggle checked={showSongs} onChange={(e)=>{setShowSongs(e.target.checked)}}/></div>}
+        {showSongs&&<SongList />}
+
         {inExercise && <p className="pl-4 pt-3">Total time for exercise {timer.totalPracticeTime()}</p>}
         
-        {inExercise && <div><h3 className="pl-4 font-bold pt-3">Comments on exercise</h3><textarea className="ml-4 w-3/4" value={exerciseComments} onChange={(e) => { setExerciseComments(e.target.value) }} ></textarea></div>}
+        {inExercise && <div><h3 className="pl-4 font-bold pt-3">Comments on exercise</h3><textarea className="w-3/4" value={exerciseComments} onChange={(e) => { setExerciseComments(e.target.value) }} ></textarea></div>}
         
         {inExercise && timer.running && <button onClick={pauseTimer} className="bg-slate-700 text-white rounded-lg p-2 m-2">Pause Timer</button>}
         {inExercise && !timer.running && <button onClick={resumeTimer} className="bg-slate-700 text-white rounded-lg p-2 m-2">Resume Timer</button>}
