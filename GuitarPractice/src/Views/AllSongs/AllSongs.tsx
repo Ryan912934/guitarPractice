@@ -126,8 +126,10 @@ export default function AllSongs() {
         const c = data.data.filter(i => i.id === id)[0];
         Object.keys(SongStatusEnum)[Object.values(SongStatusEnum).indexOf(c.status)]
 
+        
         setEditObj({
             ...c,
+            //@ts-ignore
             status: Object.keys(SongStatusEnum)[Object.values(SongStatusEnum).indexOf(c.status)]
         })
     }
@@ -179,10 +181,13 @@ export default function AllSongs() {
                 </tr> : <tr key={editId}>
                     <th><input value={editObj?.artist} onChange={(e) => { setEditObj({ ...editObj!, artist: e.target.value }) }} /></th>
                     <th><input value={editObj?.title} onChange={(e) => { setEditObj({ ...editObj!, title: e.target.value }) }} /></th>
-                    <th><select value={editObj?.status} onChange={(e) => { setEditObj({ ...editObj!, status: e.target.value }) }}>
+                    <th><select value={editObj?.status} onChange={(e) => { 
+                        //@ts-ignore
+                        setEditObj({ ...editObj!, status: e.target.value }) }}>
                         <option></option>
                         {Object.keys(SongStatusEnum).map(k => <option key={k} value={k}>
-                            {SongStatusEnum[k]}
+                            {//@ts-ignore
+                            SongStatusEnum[k]}
                         </option>)}
                     </select>
                     </th>
@@ -193,10 +198,15 @@ export default function AllSongs() {
                 {newRow && <tr key='new' className="mt-3 mb-3">
                     <th><input value={artist} onChange={(e) => { setArtist(e.target.value) }} placeholder="Artist" /></th>
                     <th><input value={song} onChange={(e) => { setSong(e.target.value) }} placeholder="Song" /></th>
-                    <th><select value={status} onChange={(e) => { setStatus(e.target.value) }}>
+
+                    <th><select value={status} onChange={(e) => {
+                        //@ts-ignore
+                        setStatus(e.target.value)
+                    }}>
                         <option></option>
                         {Object.keys(SongStatusEnum).map(k => <option key={k} value={k}>
-                            {SongStatusEnum[k]}
+                            {//@ts-ignore
+                                SongStatusEnum[k]}
                         </option>)}
                     </select> </th>
                     <th> <FaPlus className="hover:cursor-pointer" onClick={clickAdd} /> </th>

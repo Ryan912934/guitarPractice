@@ -65,6 +65,7 @@ export async function addSong(jwt: string, artist: string, song: string, status:
         {
             artist,
             song,
+            //@ts-ignore
             status: SongStatusEnum[status]
         },
         {
@@ -89,6 +90,7 @@ export async function updateSong(jwt: string, artist: string, song: string, stat
     }
 
     if(status){
+        //@ts-ignore
         body.status = SongStatusEnum[status]
     }
 
