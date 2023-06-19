@@ -35,5 +35,7 @@ jobs:
           script: |
             cd ./guitarPractice/
             git pull
-            sudo docker compose build nginx strapi
-            sudo docker compose restart nginx strapi
+            sudo docker compose build --no-cache nginx strapi
+            sudo docker compose stop 
+            sudo docker compose start 
+            sudo docker compose start nginx strapi
