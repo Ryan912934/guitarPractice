@@ -15,6 +15,10 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Footer } from './components/Footer/Footer'
 import Login from './Views/Login/Login'
+import AllSongs from './Views/AllSongs/AllSongs'
+
+import './css/toggle.css'
+import 'reactjs-popup/dist/index.css';
 
 export const UserContext = createContext<UserContextType>({ userJWT: 'a', setUserJWT: (s) => { }, login: (a: string, b: string) => { }, isLoggedIn: () => { return false }, username: '', waiting: false });
 
@@ -97,6 +101,7 @@ function App() {
               <Route path='/routine/:id' element={<PracticeRoutine />} />
               <Route path='/exercise/new' element={<CreateEditExercise />} />
               <Route path='/exercise/edit/:id' element={<CreateEditExercise />} />
+              <Route path='/songs' element={<AllSongs />} />
             </Routes>
 
           </BrowserRouter>

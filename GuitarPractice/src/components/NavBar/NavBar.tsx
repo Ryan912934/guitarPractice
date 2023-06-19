@@ -23,6 +23,11 @@ const items: ItemsType[] = [
         to: '/routines',
         name: 'Routines',
         loggedIn: true,
+    },
+    {
+        to: '/songs',
+        name: 'Songs',
+        loggedIn: true,
     }
 ]
 
