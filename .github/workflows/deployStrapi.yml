@@ -35,4 +35,5 @@ jobs:
           script: |
             cd ./guitarPractice/
             git pull
+            sudo docker compose build nginx strapi
             sudo docker compose restart nginx strapi
