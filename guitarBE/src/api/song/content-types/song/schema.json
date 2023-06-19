@@ -4,10 +4,11 @@
   "info": {
     "singularName": "song",
     "pluralName": "songs",
-    "displayName": "Song"
+    "displayName": "Song",
+    "description": ""
   },
   "options": {
-    "draftAndPublish": true
+    "draftAndPublish": false
   },
   "pluginOptions": {},
   "attributes": {
@@ -22,11 +23,11 @@
       "enum": [
         "To Learn",
         "Learning",
-        "Practising ",
+        "Practising",
         "Learnt (Not Current)"
       ]
     },
-    "users_permissions_user": {
+    "owner": {
       "type": "relation",
       "relation": "oneToOne",
       "target": "plugin::users-permissions.user"
