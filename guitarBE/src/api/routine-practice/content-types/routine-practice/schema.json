@@ -1,0 +1,32 @@
+{
+  "kind": "collectionType",
+  "collectionName": "routine_practices",
+  "info": {
+    "singularName": "routine-practice",
+    "pluralName": "routine-practices",
+    "displayName": "RoutinePractice",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "totalTimeMins": {
+      "type": "decimal"
+    },
+    "routine": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::routine.routine"
+    },
+    "skips": {
+      "type": "integer"
+    },
+    "owner": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    }
+  }
+}

@@ -19,6 +19,7 @@ import AllSongs from './Views/AllSongs/AllSongs'
 
 import './css/toggle.css'
 import 'reactjs-popup/dist/index.css';
+import { axiosInit } from './api/axios'
 
 export const UserContext = createContext<UserContextType>({ userJWT: 'a', setUserJWT: (s) => { }, login: (a: string, b: string) => { }, isLoggedIn: () => { return false }, username: '', waiting: false });
 
@@ -83,6 +84,8 @@ function App() {
   }
 
   const queryClient = new QueryClient();
+
+  axiosInit();
 
   return (
     <UserContext.Provider value={userObj}>

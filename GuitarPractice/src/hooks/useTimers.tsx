@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 interface TimerReturn {
     resetAndStart: () => void,
+    resetAndPause: () => void,
     pause: () => void,
     unPause: () => void,
     countDownDisplay: (minutes: number) => string,
@@ -22,11 +23,12 @@ export function useTimer(): TimerReturn {
     useEffect(() => {
 
         clearInterval(intervalT);
+
         if (timerRunning) {
 
-            let i = setInterval(() => {
+            let i = window.setInterval(() => {
                 setCurTime(timeToAdd + (new Date().getTime() - startTime))
-            }, 250)
+            }, 250);
             setIntervalT(i);
         }
 
@@ -37,6 +39,13 @@ export function useTimer(): TimerReturn {
         setStartTime(new Date().getTime())
         setCurTime(0);
         setTimerRunning(true);
+    }
+
+    const resetAndPause = () => {
+        setTimeToAdd(0);
+        setStartTime(new Date().getTime())
+        setCurTime(0);
+        setTimerRunning(false);
     }
 
     const pause = () => {
@@ -74,6 +83,6 @@ export function useTimer(): TimerReturn {
 
 
 
-    return { resetAndStart, pause, unPause, countDownDisplay, totalPracticeTime, running: timerRunning, curTime };
+    return { resetAndStart, resetAndPause, pause, unPause, countDownDisplay, totalPracticeTime, running: timerRunning, curTime };
 }
 
