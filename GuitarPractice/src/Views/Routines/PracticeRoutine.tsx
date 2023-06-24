@@ -10,6 +10,7 @@ import { Id, toast } from "react-toastify";
 import { PageDiv } from "../../components/PageDiv";
 import Toggle from 'react-toggle'
 import { SongList } from "./SongList";
+import { getPostRoutinePracticeMutationOptions } from "../../api/openApi/routine-practice/routine-practice";
 
 export function PracticeRoutine() {
 
@@ -37,8 +38,10 @@ export function PracticeRoutine() {
     const [inExercise, setInExercise] = useState(false);
     const [exerciseComments, setExerciseComments] = useState('');
     const [showSongs, setShowSongs] = useState(false);
+    const [skips, setSkips] = useState(0)
 
-    const toastId = useRef<Id|null>(null);
+
+    const toastId = useRef<Id | null>(null);
     const notify = () => toastId.current = toast("Saving", { type: toast.TYPE.INFO, autoClose: false });
 
     const updateSuccess = () => toast.update(toastId.current!, { render: "Saved Practice", type: toast.TYPE.SUCCESS, autoClose: 5000 });
@@ -62,7 +65,8 @@ export function PracticeRoutine() {
                 ...eState,
                 exercise: eState.exercise + 1
             })
-            timer.resetAndStart();
+            setTotalPracticeTime(totalPracticeTime + timer.curTime);
+            timer.resetAndPause();
             setExerciseComments('');
         },
         onError: () => {
@@ -88,7 +92,7 @@ export function PracticeRoutine() {
 
     const startCurExercise = () => {
         setInExercise(true);
-        timer.resetAndStart();
+        timer.resetAndPause();
     }
 
     if (eState.started && eState.exercise === -1) {
@@ -141,16 +145,16 @@ export function PracticeRoutine() {
     }
 
     const clickNextExercise = () => {
-
+        setShowSongs(false);
         exercisePracticeMut.mutate({
-            exerciseId: data.exercises[eState.exercise ].exercise.id,
+            exerciseId: data.exercises[eState.exercise].exercise.id,
             timeMinutes: +(timer.curTime / (1000 * 60)).toFixed(2),
             comments: exerciseComments
         })
     }
 
     const clickFinish = () => {
-        setTotalPracticeTime(totalPracticeTime + timer.curTime);
+        
         exercisePracticeMut.mutate({
             exerciseId: data.exercises[eState.exercise].exercise.id,
             timeMinutes: +(timer.curTime / (1000 * 60)).toFixed(2),
@@ -160,8 +164,32 @@ export function PracticeRoutine() {
             ...eState,
             finished: true
         })
-        console.log('setting finished')
+        
+        const d = getPostRoutinePracticeMutationOptions().mutationFn!({
+            data: {
+                data: {
+                    routine: id,
+                    skips: skips,
+                    totalTimeMins: +((totalPracticeTime + timer.curTime) / (1000 * 60)).toFixed(2)
 
+                }
+            }
+        })
+
+        setTotalPracticeTime(totalPracticeTime + timer.curTime);
+
+
+    }
+
+    const skipExercise = () => {
+        setSkips(skips + 1);
+        setEState({
+            ...eState,
+            exercise: eState.exercise + 1,
+            finished: !isMoreExercises()
+        })
+        timer.resetAndPause();
+        setExerciseComments('');
     }
 
     if (eState.finished) {
@@ -178,7 +206,7 @@ export function PracticeRoutine() {
         </div>
     }
 
-    if(eState.exercise >= data.exercises.length){
+    if (eState.exercise >= data.exercises.length) {
         console.log(eState)
         return <p>Err</p>
     }
@@ -188,18 +216,21 @@ export function PracticeRoutine() {
         <p className="pb-10">{data.routine.description}</p>
         {eState.exercise !== -1 && <ExerciseInfo id={data.exercises[eState.exercise].exercise.id} />}
         {!inExercise && <button className="bg-slate-700 text-white rounded-lg p-2 mt-5" onClick={startCurExercise}>Start Exercise</button>}
-        {inExercise && <p className="pl-4 font-bold pt-3">{timer.countDownDisplay(data!.exercises![eState.exercise]!.duration! || 0)}</p>}
-        
-        {inExercise && <div><p>Show Song List</p><Toggle checked={showSongs} onChange={(e)=>{setShowSongs(e.target.checked)}}/></div>}
-        {showSongs&&<SongList />}
 
-        {inExercise && <p className="pl-4 pt-3">Total time for exercise {timer.totalPracticeTime()}</p>}
-        
+        <div className="flex pt-3 pl-3">
+            {inExercise && <p className="font-bold  text-lg mr-5 mt-3">{timer.countDownDisplay(data!.exercises![eState.exercise]!.duration! || 0)}</p>}
+            {inExercise && (!timer.running ? <p className="text-xl text-red-600  font-extrabold mt-3">Timer Paused</p> : <p className="text-xl text-black font-extrabold mt-3">Timer Running</p>)}
+            {inExercise && timer.running && <button onClick={pauseTimer} className="bg-gray-400 text-white rounded-lg p-2 m-2 ">Pause Timer</button>}
+            {inExercise && !timer.running && <button onClick={resumeTimer} className="bg-slate-700 text-white rounded-lg p-2 m-2">Resume Timer</button>}
+        </div>
+
+        {inExercise && <div className="flex"><p>Show Song List</p><Toggle checked={showSongs} onChange={(e) => { setShowSongs(e.target.checked) }} /></div>}
+        {showSongs && <SongList />}
+
         {inExercise && <div><h3 className="pl-4 font-bold pt-3">Comments on exercise</h3><textarea className="w-3/4" value={exerciseComments} onChange={(e) => { setExerciseComments(e.target.value) }} ></textarea></div>}
-        
-        {inExercise && timer.running && <button onClick={pauseTimer} className="bg-slate-700 text-white rounded-lg p-2 m-2">Pause Timer</button>}
-        {inExercise && !timer.running && <button onClick={resumeTimer} className="bg-slate-700 text-white rounded-lg p-2 m-2">Resume Timer</button>}
+
+        {inExercise && <button onClick={skipExercise} className="bg-gray-400 text-white rounded-lg p-2 m-2" > Skip this exercise</button>}
         {inExercise && isMoreExercises() && <button onClick={clickNextExercise} className="bg-slate-700 text-white rounded-lg p-2"> Finish and Move to next exercise</button>}
-        {inExercise && !isMoreExercises() && <button onClick={clickFinish} className="bg-slate-700 text-white rounded-lg p-2">Finish Practice Routine</button>}
+        {inExercise && !isMoreExercises() && <button onClick={clickFinish} className="bg-slate-700 text-white rounded-lg p-2 m -2">Finish Practice Routine</button>}
     </PageDiv>
 }
