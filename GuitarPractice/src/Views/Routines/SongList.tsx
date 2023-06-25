@@ -58,7 +58,7 @@ export function SongList() {
                     </tr>
                 </thead>
                 <tbody>
-                    {data.data.map(d => <tr>
+                    {data.data.songs.map(d => <tr>
                         <th>{d.artist}</th>
                         <th>{d.title}</th>
                         <th>
