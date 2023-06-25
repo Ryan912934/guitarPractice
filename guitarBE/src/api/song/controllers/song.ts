@@ -68,8 +68,16 @@ export default factories.createCoreController('api::song.song', ({ strapi }) => 
             limit
         });
 
+        let c = await strapi.entityService.findMany('api::song.song', {
+            fields: [],
+            filters,
+            sort: { artist: 'DESC' },
+        });
 
-        return entries;
+        return {
+            songs: entries,
+            count: c.length
+        };
     },
 
     async create(ctx) {

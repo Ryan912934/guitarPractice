@@ -5,6 +5,7 @@ import { FaPlus, FaCheck, FaTimes, FaEdit, FaMusic } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { PageDiv } from "../../components/PageDiv";
+import { Pagination } from "../../components/Pagination/Pagination";
 
 
 function Routines() {
@@ -20,13 +21,15 @@ function Routines() {
     const name = useRef<string|undefined>(undefined);
     const description = useRef<string|undefined>(undefined);
     const queryClient = useQueryClient();
+    const [page, setPage] = useState(1);
+    const [pageSize, setPageSize] = useState(25);
 
 
     const fetchExercises = async function () {
-        return await getMyRoutines(userContext.userJWT!);
+        return await getMyRoutines(userContext.userJWT!, (page-1)*pageSize, pageSize);
     }
 
-    const { data, error, isError, isLoading } = useQuery<RoutinesType, any>(['exercises'], fetchExercises)
+    const { data, error, isError, isLoading } = useQuery<RoutinesType, any>(['exercises', page, pageSize], fetchExercises)
     // first argument is a string to cache and track the query result
     if (isLoading) {
         return <div>Loading...</div>
@@ -105,7 +108,7 @@ function Routines() {
             </thead>
             <tbody>
 
-                {data!.data.map(d => <tr key={d.id}>
+                {data!.data.routines.map(d => <tr key={d.id}>
                     <th>{d.Name}</th>
                     <th>{d.description}</th>
                     <th><Link to={`/routine/${d.id}/edit`}><FaEdit /></Link></th>
@@ -115,7 +118,7 @@ function Routines() {
                 {bottomRow()}
             </tbody>
         </table>
-
+        <Pagination page={page} pageSize={pageSize} setPage={setPage} setPageSize={setPageSize} count={data.data.count} />
     </PageDiv >
 
 

@@ -37,6 +37,12 @@ export default factories.createCoreController('api::exercise.exercise', ({ strap
             limit
         });
 
+        let c = await strapi.entityService.findMany('api::exercise.exercise', {
+          fields: ['Name', 'Description'],
+          filters: { Owner: ctx.state.user.id },
+          sort: { Name: 'DESC' },
+      });
+
         for (let i = 0; i < entries.length; i++) {
             const id = entries[i].id;
             const r = await strapi.entityService.findMany('api::exercise-history.exercise-history', {
@@ -57,7 +63,10 @@ export default factories.createCoreController('api::exercise.exercise', ({ strap
 
 
 
-        return entries;
+        return {
+          count: c.length,
+          exercises: entries
+        };
 
     },
 

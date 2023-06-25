@@ -4,7 +4,6 @@ import { getUsername, isLoggedIn, login } from './utils/userManagement'
 import AllExercises from './Views/AllExercises/AllExercises'
 import Home from './Views/Home/Home'
 import Routines from './Views/Routines/Routines'
-import { PracticeExercise } from './Views/PracticeExercise/PracticeExercise'
 import { NavBar } from './components/NavBar/NavBar'
 import { Id, ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
@@ -99,7 +98,6 @@ function App() {
               <Route path ='/login' element={<Login />} />
               <Route path='/exercises' element={<AllExercises />} />
               <Route path='/routines' element={<Routines />} />
-              <Route path='/exercise/:id' element={<PracticeExercise />} />
               <Route path='/routine/:id/edit' element={<EditRoutine />} />
               <Route path='/routine/:id' element={<PracticeRoutine />} />
               <Route path='/exercise/new' element={<CreateEditExercise />} />

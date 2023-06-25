@@ -19,8 +19,17 @@ export default factories.createCoreController('api::routine.routine', ({ strapi 
             limit
         });
 
+        let c = entries = await strapi.entityService.findMany('api::routine.routine', {
+          fields: ['Name', 'description'],
+          filters: { owner: ctx.state.user.id },
+          sort: { Name: 'DESC' },
+      });
 
-        return entries;
+
+        return {
+          count: c.length,
+          routines: entries
+        };
 
     },
 
