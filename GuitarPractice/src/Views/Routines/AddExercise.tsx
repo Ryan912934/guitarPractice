@@ -22,8 +22,8 @@ export function AddExercise(props: AddExerciseProps) {
     })
 
     const fetchExercises = async function () {
-        const d = await getMyExercises(userContext.userJWT!);
-        setExerciseId(d.data[0].id);
+        const d = await getMyExercises(userContext.userJWT!, 1, 5000);
+        setExerciseId(d.data.exercises[0].id);
         return d;
     }
 
@@ -44,7 +44,7 @@ export function AddExercise(props: AddExerciseProps) {
 
     return <div>
         <select value={exerciseId} onChange={(e) => { setExerciseId(+e.target.value) }}>
-            {data!.data.map(d => (
+            {data!.data.exercises.map(d => (
                 <option value={d.id} >{d.Name}</option>
             ))}
         </select>
