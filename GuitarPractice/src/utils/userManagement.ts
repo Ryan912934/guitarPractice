@@ -52,7 +52,6 @@ interface IUsername{
 }
 
 export async function getUsername(jwt: string): Promise<IUsername> {
-    console.log(`using jwt ${jwt}`)
     const data = await axios.get(`${apiUrl()}/whoami`,
         {
             headers: {
@@ -60,7 +59,6 @@ export async function getUsername(jwt: string): Promise<IUsername> {
                 Authorization: `Bearer ${jwt}`
             }
         })
-    console.log(data)
 
     return data.data;
 }

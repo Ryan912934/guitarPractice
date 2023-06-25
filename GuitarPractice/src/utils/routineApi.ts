@@ -3,14 +3,17 @@ import { apiUrl } from "./apiUrl";
 
 export interface RoutinesType {
     data: {
-        Name: string,
-        id: number,
-        description: string,
-    }[]
+        count: number,
+        routines: {
+            Name: string,
+            id: number,
+            description: string,
+        }[]
+    }
 }
 
-export async function getMyRoutines(jwt: string): Promise<RoutinesType> {
-    const data = await axios.get(`${apiUrl()}/routine/`,
+export async function getMyRoutines(jwt: string, start:number, pageSize:number): Promise<RoutinesType> {
+    const data = await axios.get(`${apiUrl()}/routine/?start=${start}&limit=${pageSize}`,
         {
             headers: {
                 "Content-Type": 'application/json',
@@ -66,7 +69,7 @@ export async function createRoutine(jwt: string, name: string, description: stri
     return data;
 }
 
-export async function updateRoutineName(jwt:string, txt:string, id: number){
+export async function updateRoutineName(jwt: string, txt: string, id: number) {
     const data = await axios.post(`${apiUrl()}/routine/${id}/`, {
         name: txt
     }, {
@@ -77,10 +80,10 @@ export async function updateRoutineName(jwt:string, txt:string, id: number){
     })
 
     return data;
-    
+
 }
 
-export async function updateRoutineDescription(jwt:string, txt:string, id: number){
+export async function updateRoutineDescription(jwt: string, txt: string, id: number) {
     const data = await axios.post(`${apiUrl()}/routine/${id}/`, {
         description: txt
     }, {
@@ -91,7 +94,7 @@ export async function updateRoutineDescription(jwt:string, txt:string, id: numbe
     })
 
     return data;
-    
+
 }
 
 export async function moveRoutine(jwt: string, id: number, up: boolean) {
@@ -108,9 +111,9 @@ export async function moveRoutine(jwt: string, id: number, up: boolean) {
     return data;
 }
 
-export async function addExerciseToRoutine(jwt: string, routineId: number, exerciseId: number ){
+export async function addExerciseToRoutine(jwt: string, routineId: number, exerciseId: number) {
 
-    const data = await axios.post(`${apiUrl()}/routine-exercise/`, {routineId, exerciseId}, {
+    const data = await axios.post(`${apiUrl()}/routine-exercise/`, { routineId, exerciseId }, {
         headers: {
             "Content-Type": 'application/json',
             Authorization: `Bearer ${jwt}`
@@ -120,8 +123,8 @@ export async function addExerciseToRoutine(jwt: string, routineId: number, exerc
     return data;
 }
 
-export async function deleteExerciseFromRoutine(jwt: string,  routineId: number, order: number){
-    const data = await axios.delete(`${apiUrl()}/routine-exercise/${routineId}/${order}`,  {
+export async function deleteExerciseFromRoutine(jwt: string, routineId: number, order: number) {
+    const data = await axios.delete(`${apiUrl()}/routine-exercise/${routineId}/${order}`, {
         headers: {
             "Content-Type": 'application/json',
             Authorization: `Bearer ${jwt}`
@@ -131,8 +134,8 @@ export async function deleteExerciseFromRoutine(jwt: string,  routineId: number,
     return data;
 }
 
-export async function updateRoutineExerciseDuration(jwt: string, routineExerciseId: number, duration:number){
-    const data = await axios.post(`${apiUrl()}/routine-exercise/${routineExerciseId}`, {duration},  {
+export async function updateRoutineExerciseDuration(jwt: string, routineExerciseId: number, duration: number) {
+    const data = await axios.post(`${apiUrl()}/routine-exercise/${routineExerciseId}`, { duration }, {
         headers: {
             "Content-Type": 'application/json',
             Authorization: `Bearer ${jwt}`

@@ -1,10 +1,11 @@
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { UserContext } from "../../App";
 import { PageDiv } from "../../components/PageDiv";
 import { ISongs, SongStatusEnum, addSong, deleteSong, getMySongs, updateSong } from "../../utils/songsApi";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { FaEdit, FaPlus, FaTicketAlt, FaTimes, FaTrash } from "react-icons/fa";
 import { Id, ToastContainer, toast } from 'react-toastify'
+import { Pagination } from "../../components/Pagination/Pagination";
 
 interface iEdit {
     title: string,
@@ -30,13 +31,16 @@ export default function AllSongs() {
     const updateSuccess = (txt: string) => toast.update(toastId.current!, { render: txt, type: toast.TYPE.SUCCESS, autoClose: 5000 });
     const updateFailure = (txt: string) => toast.update(toastId.current!, { render: txt, type: toast.TYPE.ERROR, autoClose: 5000 });
 
+    const [pageSize, setPageSize] = useState(25);
+    const [page, setPage] = useState(1);
+
     const toastErrId = useRef<Id | null>(null);
     const errNotify = (txt: string) => {
         toastErrId.current = toast(txt, { type: toast.TYPE.ERROR, autoClose: 5000 });
     }
 
     const fetchSongs = async function () {
-        return await getMySongs(userContext.userJWT!);
+        return await getMySongs(userContext.userJWT!, (page-1)*pageSize, pageSize);
     }
 
     const queryClient = useQueryClient();
@@ -66,7 +70,6 @@ export default function AllSongs() {
             return addSong(userContext.userJWT!, artist, song, status!)
         },
         onSuccess: () => {
-            queryClient.invalidateQueries(['songs'])
             updateSuccess('Added Song');
             setEditId(undefined);
             setEditObj(undefined)
@@ -78,7 +81,7 @@ export default function AllSongs() {
         }
     })
 
-    const { data, error, isError, isLoading } = useQuery<ISongs, any>(['songs'], fetchSongs)
+    const { data, error, isError, isLoading } = useQuery<ISongs, any>(['songs', page, pageSize], fetchSongs)
     // first argument is a string to cache and track the query result
     if (isLoading) {
         return <div>Loading...</div>
@@ -123,10 +126,10 @@ export default function AllSongs() {
 
     const clickEdit = (id: number) => {
         setEditId(id);
-        const c = data.data.filter(i => i.id === id)[0];
+        const c = data.data.songs.filter(i => i.id === id)[0];
         Object.keys(SongStatusEnum)[Object.values(SongStatusEnum).indexOf(c.status)]
 
-        
+
         setEditObj({
             ...c,
             //@ts-ignore
@@ -172,7 +175,7 @@ export default function AllSongs() {
                 </tr>
             </thead>
             <tbody>
-                {data.data.map(d => <>{d.id !== editId ? <tr key={d.id} className="pb-3">
+                {data.data.songs.map(d => <>{d.id !== editId ? <tr key={d.id} className="pb-3">
                     <th>{d.artist}</th>
                     <th>{d.title}</th>
                     <th>{d.status}</th>
@@ -181,13 +184,14 @@ export default function AllSongs() {
                 </tr> : <tr key={editId}>
                     <th><input value={editObj?.artist} onChange={(e) => { setEditObj({ ...editObj!, artist: e.target.value }) }} /></th>
                     <th><input value={editObj?.title} onChange={(e) => { setEditObj({ ...editObj!, title: e.target.value }) }} /></th>
-                    <th><select value={editObj?.status} onChange={(e) => { 
+                    <th><select value={editObj?.status} onChange={(e) => {
                         //@ts-ignore
-                        setEditObj({ ...editObj!, status: e.target.value }) }}>
+                        setEditObj({ ...editObj!, status: e.target.value })
+                    }}>
                         <option></option>
                         {Object.keys(SongStatusEnum).map(k => <option key={k} value={k}>
                             {//@ts-ignore
-                            SongStatusEnum[k]}
+                                SongStatusEnum[k]}
                         </option>)}
                     </select>
                     </th>
@@ -214,6 +218,7 @@ export default function AllSongs() {
                 </tr>}
             </tbody>
         </table>
+        <Pagination page={page} pageSize={pageSize} setPage={setPage} setPageSize={setPageSize} count={data.data.count}/>
 
         {!newRow && <button onClick={() => { setNewRow(true) }} className="bg-blue-800 text-white rounded-lg p-1 mt-5">Add Song</button>}
     </PageDiv>

@@ -5,76 +5,79 @@ export interface AllExercisesType {
     status: number,
     statusText: string,
     data: {
-        Description: string,
-        Name: string, 
-        id: number,
-        latestPractice: string,
-        practiceCount: number
-    }[]
+        count: number,
+        exercises: {
+            Description: string,
+            Name: string,
+            id: number,
+            latestPractice: string,
+            practiceCount: number
+        }[]
+    }
 }
 
-export async function getMyExercises(jwt:string):Promise<AllExercisesType>{
+export async function getMyExercises(jwt: string, page:number, pageSize:number): Promise<AllExercisesType> {
 
 
-    const data = await axios.get(`${apiUrl()}/exercises`,
-    {
-        headers: {
-            "Content-Type": 'application/json',
-            Authorization: `Bearer ${jwt}`
-        }
-    })
+    const data = await axios.get(`${apiUrl()}/exercises?start=${(page-1)*pageSize}&limit=${pageSize}`,
+        {
+            headers: {
+                "Content-Type": 'application/json',
+                Authorization: `Bearer ${jwt}`
+            }
+        })
 
     return data;
 
 }
 
 export interface ExerciseType {
-    data : {
+    data: {
         Description: string,
         Name: string,
         guide: string,
-        id: number|undefined,
-        metronome: boolean|undefined,
+        id: number | undefined,
+        metronome: boolean | undefined,
         video: string,
         comments: string[]
     }
 }
 
-export async function getExercise(jwt:string, id:number):Promise<ExerciseType>{
- 
-    
+export async function getExercise(jwt: string, id: number): Promise<ExerciseType> {
+
+
     const data = await axios.get(`${apiUrl()}/exercise/${id}`,
-    {
-        headers: {
-            "Content-Type": 'application/json',
-            Authorization: `Bearer ${jwt}`
-        }
-    })
+        {
+            headers: {
+                "Content-Type": 'application/json',
+                Authorization: `Bearer ${jwt}`
+            }
+        })
 
     console.log(data.data.comments)
     return data;
 }
 
-export async function addExercisePractice(jwt:string, exerciseId:number, time:number, bpm:number|undefined, speed:number|undefined, comments:string){
+export async function addExercisePractice(jwt: string, exerciseId: number, time: number, bpm: number | undefined, speed: number | undefined, comments: string) {
     const data = await axios.post(`${apiUrl()}/exercise-history/`,
-    {
-        exerciseId,
-        time,
-        bpm, 
-        speed,
-        comments,
-    },
-    {
-        headers: {
-            "Content-Type": 'application/json',
-            Authorization: `Bearer ${jwt}`
+        {
+            exerciseId,
+            time,
+            bpm,
+            speed,
+            comments,
         },
-    })
+        {
+            headers: {
+                "Content-Type": 'application/json',
+                Authorization: `Bearer ${jwt}`
+            },
+        })
     return data;
 }
 
 
-export async function createUpdateExercise(jwt:string, name:string, description:string, video:string, metronome:string, guide: string, id?:number){
+export async function createUpdateExercise(jwt: string, name: string, description: string, video: string, metronome: string, guide: string, id?: number) {
 
     const body = {
         name,
@@ -88,7 +91,7 @@ export async function createUpdateExercise(jwt:string, name:string, description:
 
     console.log(body)
 
-    if(id){
+    if (id) {
         console.log('Update exercise')
         data = await axios.post(`${apiUrl()}/exercise/${id}/`, body, {
             headers: {

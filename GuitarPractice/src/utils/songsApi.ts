@@ -10,23 +10,26 @@ export enum SongStatusEnum {
 
 export interface ISongs {
     data: {
-        artist: string,
-        id: number,
-        title: string,
-        status: SongStatusEnum
+        count: number,
+        songs: {
+            artist: string,
+            id: number,
+            title: string,
+            status: SongStatusEnum
+        }[]
 
-    }[]
+    }
 }
 
-export async function getMySongs(jwt: string): Promise<ISongs> {
-    const data = await axios.get(`${apiUrl()}/song/`,
+export async function getMySongs(jwt: string, start: number, pageSize:number): Promise<ISongs> {
+    const data = await axios.get(`${apiUrl()}/song/?start=${start}&limit=${pageSize}`,
         {
             headers: {
                 "Content-Type": 'application/json',
                 Authorization: `Bearer ${jwt}`
             }
         })
-
+    console.log(data)
     return data;
 }
 
@@ -43,7 +46,7 @@ export async function getMySongsByStatus(jwt: string, status: string): Promise<I
 }
 
 
-export async function deleteSong(jwt: string, id:number) {
+export async function deleteSong(jwt: string, id: number) {
     const data = await axios.delete(`${apiUrl()}/song/${id}`,
         {
             headers: {
@@ -80,16 +83,16 @@ export async function addSong(jwt: string, artist: string, song: string, status:
 
 export async function updateSong(jwt: string, artist: string, song: string, status: SongStatusEnum, id: number): Promise<IAddSong> {
 
-    let body:any = {}
-    if(artist){
+    let body: any = {}
+    if (artist) {
         body.artist = artist;
     }
 
-    if(song){
+    if (song) {
         body.song = song
     }
 
-    if(status){
+    if (status) {
         //@ts-ignore
         body.status = SongStatusEnum[status]
     }
