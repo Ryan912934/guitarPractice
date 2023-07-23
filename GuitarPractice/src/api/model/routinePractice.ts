@@ -13,6 +13,9 @@ export interface RoutinePractice {
   time?: number;
   routine?: RoutinePracticeRoutine;
   user?: RoutinePracticeUser;
+  comments?: string;
+  numberOfExercises?: number;
+  numberOfSkippedExercises?: number;
   createdAt?: string;
   updatedAt?: string;
   createdBy?: RoutinePracticeCreatedBy;

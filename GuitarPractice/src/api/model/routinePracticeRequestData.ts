@@ -11,4 +11,7 @@ export type RoutinePracticeRequestData = {
   time?: number;
   routine?: RoutinePracticeRequestDataRoutine;
   user?: RoutinePracticeRequestDataUser;
+  comments?: string;
+  numberOfExercises?: number;
+  numberOfSkippedExercises?: number;
 };

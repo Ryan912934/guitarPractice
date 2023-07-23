@@ -22,7 +22,7 @@ import { useDebouncedCallback } from "use-debounce";
 import { StyledTable } from "../../../components/StyledTable";
 import { useGetRoutines } from "../../../api/openApi/routine/routine";
 import { AddRoutine } from "../../Modals/AddRoutine/AddRoutine";
-import { SearchIcon } from "@chakra-ui/icons";
+import { ChevronRightIcon, SearchIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
 
 export function ViewAllRoutines() {
@@ -47,14 +47,33 @@ export function ViewAllRoutines() {
       id: "View",
       cell: (info) => {
         return (
-          <IconButton
-            onClick={() => {
-              navigate(`${info.getValue()}`);
-            }}
-            colorScheme="blue"
-            aria-label="View Routine"
-            icon={<SearchIcon />}
-          />
+          <>
+            <IconButton
+              onClick={() => {
+                navigate(`${info.getValue()}`);
+              }}
+              colorScheme="blue"
+              aria-label="View Routine"
+              icon={<SearchIcon />}
+            />
+          </>
+        );
+      },
+    }),
+    columnHelper.accessor((row) => row.id, {
+      id: "Practice",
+      cell: (info) => {
+        return (
+          <>
+            <IconButton
+              onClick={() => {
+                navigate(`${info.getValue()}/practice`);
+              }}
+              colorScheme="green"
+              aria-label="Practice Routine"
+              icon={<ChevronRightIcon />}
+            />
+          </>
         );
       },
     }),

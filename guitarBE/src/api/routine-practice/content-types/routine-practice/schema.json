@@ -4,7 +4,8 @@
   "info": {
     "singularName": "routine-practice",
     "pluralName": "routine-practices",
-    "displayName": "routine-practice"
+    "displayName": "routine-practice",
+    "description": ""
   },
   "options": {
     "draftAndPublish": false
@@ -23,6 +24,15 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "plugin::users-permissions.user"
+    },
+    "comments": {
+      "type": "text"
+    },
+    "numberOfExercises": {
+      "type": "integer"
+    },
+    "numberOfSkippedExercises": {
+      "type": "integer"
     }
   }
 }

@@ -21,7 +21,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2023-07-23T10:28:01.496Z"
+    "x-generation-date": "2023-07-23T20:37:00.337Z"
   },
   "servers": [
     {
@@ -3694,6 +3694,15 @@
                   }
                 ],
                 "example": "string or id"
+              },
+              "comments": {
+                "type": "string"
+              },
+              "numberOfExercises": {
+                "type": "integer"
+              },
+              "numberOfSkippedExercises": {
+                "type": "integer"
               }
             }
           }
@@ -4339,6 +4348,15 @@
                 }
               }
             }
+          },
+          "comments": {
+            "type": "string"
+          },
+          "numberOfExercises": {
+            "type": "integer"
+          },
+          "numberOfSkippedExercises": {
+            "type": "integer"
           },
           "createdAt": {
             "type": "string",

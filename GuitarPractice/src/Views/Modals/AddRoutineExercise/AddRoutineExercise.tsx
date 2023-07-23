@@ -42,7 +42,7 @@ export function AddRoutineExercise(props: AddRoutineExerciseProps) {
       data: {
         data: {
           practiceTime: data.practiceTime,
-          exercise: data.exercise.value,
+          exercise: (data.exercise as any).value,
           routine: props.routineId,
           order: props.order! + 1,
         },
@@ -68,6 +68,14 @@ export function AddRoutineExercise(props: AddRoutineExerciseProps) {
     return <Spinner />;
   }
 
+  const options = data?.data.data!.map(
+    (i) =>
+      ({
+        label: i.attributes?.name!,
+        value: i.id!,
+      }!)
+  )!;
+
   return (
     <Modal
       blockScrollOnMount={false}
@@ -88,10 +96,7 @@ export function AddRoutineExercise(props: AddRoutineExerciseProps) {
                   control={control}
                   render={({ field: { onChange, value, ref } }) => (
                     <Select
-                      options={data?.data.data!.map((i) => ({
-                        label: i.attributes?.name,
-                        value: i.id,
-                      }))}
+                      options={options as any}
                       value={value}
                       onChange={onChange}
                     />

@@ -3,8 +3,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { UserContext, isLoggedIn, login } from "./utils/userManagement";
 import Home from "./Views/Pages/Home/Home";
 import { NavBar } from "./components/NavBar/NavBar";
-import { Id, ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Login from "./Views/Pages/Login/Login";
@@ -14,7 +12,7 @@ import "reactjs-popup/dist/index.css";
 import { axiosInit } from "./api/axios";
 import jwtDecode from "jwt-decode";
 import { routes } from "./data/routes";
-import { ChakraProvider } from "@chakra-ui/react";
+import { ChakraProvider, useToast } from "@chakra-ui/react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
@@ -26,24 +24,28 @@ function App() {
   const [waiting, setWaiting] = useState(false);
   const [userId, setUserId] = useState<number>();
 
-  const toastId = useRef<Id | null>(null);
+  const toast = useToast();
   const notify = () =>
-    (toastId.current = toast("Logging In", {
-      type: toast.TYPE.INFO,
-      autoClose: false,
-    }));
+    toast({
+      title: "Logging In.",
+      status: "info",
+      duration: 4000,
+      isClosable: true,
+    });
 
   const updateSuccess = () =>
-    toast.update(toastId.current!, {
-      render: "Logged In",
-      type: toast.TYPE.SUCCESS,
-      autoClose: 5000,
+    toast({
+      title: "Logged In.",
+      status: "success",
+      duration: 9000,
+      isClosable: true,
     });
   const updateFailure = () =>
-    toast.update(toastId.current!, {
-      render: "Error Logging In",
-      type: toast.TYPE.ERROR,
-      autoClose: 5000,
+    toast({
+      title: "Error logging.",
+      status: "error",
+      duration: 9000,
+      isClosable: true,
     });
 
   const setUserIdFromJwt = () => {
@@ -106,7 +108,6 @@ function App() {
                   }}
                   loggedIn={isLoggedIn(userJWT, setUserJWT)}
                 />
-                <ToastContainer />
                 <Routes>
                   {routes.map((r) => (
                     <Route path={r.to} element={r.element} />

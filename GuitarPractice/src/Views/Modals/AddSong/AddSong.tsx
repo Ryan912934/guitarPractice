@@ -84,10 +84,13 @@ export function AddSong(props: AddArtistProps) {
                   control={control}
                   render={({ field: { onChange, value, ref } }) => (
                     <Select
-                      options={data?.data.data!.map((i) => ({
-                        label: i.attributes?.name,
-                        value: i.id,
-                      }))}
+                      options={data?.data.data!.map(
+                        (i) =>
+                          ({
+                            label: i.attributes?.name,
+                            value: i.id,
+                          } as any)
+                      )}
                       value={value}
                       onChange={onChange}
                     />

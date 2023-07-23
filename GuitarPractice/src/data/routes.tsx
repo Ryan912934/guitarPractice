@@ -1,5 +1,6 @@
 import { ViewAllExercises } from "../Views/Pages/Exercises/ViewAllExercises";
 import Home from "../Views/Pages/Home/Home";
+import { PracticeRoutine } from "../Views/Pages/Routines/PracticeRoutine";
 import { ViewAllRoutines } from "../Views/Pages/Routines/ViewAllRoutines";
 import { ViewOneRoutine } from "../Views/Pages/Routines/ViewOneRoutine";
 import { Songs } from "../Views/Pages/Songs/Songs";
@@ -47,5 +48,12 @@ export const routes: RouteType[] = [
     loggedIn: true,
     navBar: false,
     element: <ViewOneRoutine />,
+  },
+  {
+    to: "routines/:id/practice",
+    name: "practice",
+    loggedIn: true,
+    navBar: false,
+    element: <PracticeRoutine />,
   },
 ];

@@ -29,6 +29,7 @@ interface StyledTableProps {
     pageIndex: number;
   };
   setPagination: OnChangeFn<PaginationState>;
+  removePagination?: boolean;
 }
 export function StyledTable(props: StyledTableProps) {
   const table = useReactTable({
@@ -89,73 +90,77 @@ export function StyledTable(props: StyledTableProps) {
           </Tbody>
         </Table>
       </TableContainer>
-      <div className="flex flex-row place-content-end items-center gap-2 pr-5">
-        <Button
-          className="border rounded p-1"
-          onClick={() => table.setPageIndex(0)}
-          disabled={!table.getCanPreviousPage()}
-        >
-          {"<<"}
-        </Button>
-        <Button
-          className="border rounded p-1"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          {"<"}
-        </Button>
-        <Button
-          className="border rounded p-1"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          {">"}
-        </Button>
-        <Button
-          className="border rounded p-1"
-          onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-          disabled={!table.getCanNextPage()}
-        >
-          {">>"}
-        </Button>
-        <span className="flex items-center gap-1">
-          <div>Page</div>
-          <strong>
-            {table.getState().pagination.pageIndex + 1} of{" "}
-            {table.getPageCount()}
-          </strong>
-        </span>
-      </div>
-      <div className="flex flex-row place-content-end items-center gap-2 pr-5">
-        <span className="flex items-center gap-1">
-          Go to page:
-          <Input
-            type="number"
-            w="130px"
-            defaultValue={table.getState().pagination.pageIndex + 1}
-            onChange={(e) => {
-              const page = e.target.value ? Number(e.target.value) - 1 : 0;
-              table.setPageIndex(page);
-            }}
-            className="border p-1 rounded w-16"
-          />
-        </span>
-        <Select
-          w="130px"
-          value={table.getState().pagination.pageSize}
-          variant="outline"
-          onChange={(e) => {
-            table.setPageSize(Number(e.target.value));
-          }}
-        >
-          {[10, 20, 30, 40, 50].map((pageSize) => (
-            <option key={pageSize} value={pageSize}>
-              Show {pageSize}
-            </option>
-          ))}
-        </Select>
-      </div>
-      <div>{table.getRowModel().rows.length} Rows</div>
+      {!props.removePagination && (
+        <div>
+          <div className="flex flex-row place-content-end items-center gap-2 pr-5">
+            <Button
+              className="border rounded p-1"
+              onClick={() => table.setPageIndex(0)}
+              disabled={!table.getCanPreviousPage()}
+            >
+              {"<<"}
+            </Button>
+            <Button
+              className="border rounded p-1"
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+            >
+              {"<"}
+            </Button>
+            <Button
+              className="border rounded p-1"
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+            >
+              {">"}
+            </Button>
+            <Button
+              className="border rounded p-1"
+              onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+              disabled={!table.getCanNextPage()}
+            >
+              {">>"}
+            </Button>
+            <span className="flex items-center gap-1">
+              <div>Page</div>
+              <strong>
+                {table.getState().pagination.pageIndex + 1} of{" "}
+                {table.getPageCount()}
+              </strong>
+            </span>
+          </div>
+          <div className="flex flex-row place-content-end items-center gap-2 pr-5">
+            <span className="flex items-center gap-1">
+              Go to page:
+              <Input
+                type="number"
+                w="130px"
+                defaultValue={table.getState().pagination.pageIndex + 1}
+                onChange={(e) => {
+                  const page = e.target.value ? Number(e.target.value) - 1 : 0;
+                  table.setPageIndex(page);
+                }}
+                className="border p-1 rounded w-16"
+              />
+            </span>
+            <Select
+              w="130px"
+              value={table.getState().pagination.pageSize}
+              variant="outline"
+              onChange={(e) => {
+                table.setPageSize(Number(e.target.value));
+              }}
+            >
+              {[10, 20, 30, 40, 50].map((pageSize) => (
+                <option key={pageSize} value={pageSize}>
+                  Show {pageSize}
+                </option>
+              ))}
+            </Select>
+          </div>
+          <div>{table.getRowModel().rows.length} Rows</div>
+        </div>
+      )}
     </div>
   );
 }
