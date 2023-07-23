@@ -4,7 +4,7 @@
   "info": {
     "singularName": "song",
     "pluralName": "songs",
-    "displayName": "Song",
+    "displayName": "song",
     "description": ""
   },
   "options": {
@@ -13,24 +13,18 @@
   "pluginOptions": {},
   "attributes": {
     "title": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
-    "artist": {
-      "type": "string"
-    },
-    "status": {
-      "type": "enumeration",
-      "enum": [
-        "To Learn",
-        "Learning",
-        "Practising",
-        "Learnt (Not Current)"
-      ]
-    },
-    "owner": {
+    "user": {
       "type": "relation",
       "relation": "oneToOne",
       "target": "plugin::users-permissions.user"
+    },
+    "artist": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::artist.artist"
     }
   }
 }

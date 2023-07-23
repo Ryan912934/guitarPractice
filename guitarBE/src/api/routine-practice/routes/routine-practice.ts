@@ -4,12 +4,4 @@
 
 import { factories } from '@strapi/strapi';
 
-export default {
-    routes: [
-        {
-          method: 'POST',
-          path: '/routine-practice/',
-          handler: 'routine-practice.create',
-        },
-    ]
-}
+export default factories.createCoreRouter('api::routine-practice.routine-practice');

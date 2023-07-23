@@ -1,4 +1,3 @@
-
 # Creating multi-stage build for production
 FROM node:20-buster
 

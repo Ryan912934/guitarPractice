@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "exercise_practices",
+  "info": {
+    "singularName": "exercise-practice",
+    "pluralName": "exercise-practices",
+    "displayName": "exercise-practice"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "notes": {
+      "type": "string"
+    },
+    "exercise": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::exercise.exercise"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "time": {
+      "type": "decimal"
+    }
+  }
+}

@@ -4,7 +4,7 @@
   "info": {
     "singularName": "exercise",
     "pluralName": "exercises",
-    "displayName": "Exercise",
+    "displayName": "exercise",
     "description": ""
   },
   "options": {
@@ -12,42 +12,18 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "Name": {
+    "name": {
       "type": "string",
       "required": true
     },
-    "Description": {
-      "type": "text"
+    "description": {
+      "type": "text",
+      "required": true
     },
-    "Owner": {
+    "user": {
       "type": "relation",
       "relation": "oneToOne",
       "target": "plugin::users-permissions.user"
-    },
-    "video": {
-      "type": "string"
-    },
-    "metronome": {
-      "type": "boolean"
-    },
-    "tab": {
-      "type": "media",
-      "multiple": false,
-      "required": false,
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
-      ]
-    },
-    "guide": {
-      "type": "text"
-    },
-    "tags": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::tag.tag"
     }
   }
 }

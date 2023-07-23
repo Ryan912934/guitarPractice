@@ -4,7 +4,7 @@
   "info": {
     "singularName": "routine-practice",
     "pluralName": "routine-practices",
-    "displayName": "RoutinePractice",
+    "displayName": "routine-practice",
     "description": ""
   },
   "options": {
@@ -12,7 +12,7 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "totalTimeMins": {
+    "time": {
       "type": "decimal"
     },
     "routine": {
@@ -20,13 +20,19 @@
       "relation": "oneToOne",
       "target": "api::routine.routine"
     },
-    "skips": {
-      "type": "integer"
-    },
-    "owner": {
+    "user": {
       "type": "relation",
       "relation": "oneToOne",
       "target": "plugin::users-permissions.user"
+    },
+    "comments": {
+      "type": "text"
+    },
+    "numberOfExercises": {
+      "type": "integer"
+    },
+    "numberOfSkippedExercises": {
+      "type": "integer"
     }
   }
 }
