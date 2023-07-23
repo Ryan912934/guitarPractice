@@ -17,6 +17,14 @@ function Login() {
 
   return (
     <div className="grid col-span-1 bg-slate-400 m-5 pt-4 pb-4 rounded-xl pl-5 pr-5">
+      <button
+        onClick={() => {
+          localStorage.removeItem("guitarJWT");
+        }}
+      >
+        kill jwt
+      </button>
+      <p>cur JWT: {localStorage.getItem("guitarJWT")}</p>
       <input
         placeholder="Username"
         className="w-56 mt-3 mb-3"
