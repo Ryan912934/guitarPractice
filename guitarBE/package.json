@@ -1,5 +1,5 @@
 {
-  "name": "guitar-be",
+  "name": "strapi",
   "private": true,
   "version": "0.1.0",
   "description": "A Strapi application",
@@ -10,17 +10,18 @@
     "strapi": "strapi"
   },
   "dependencies": {
-    "@strapi/plugin-documentation": "^4.8.2",
-    "@strapi/plugin-i18n": "4.8.2",
-    "@strapi/plugin-users-permissions": "4.8.2",
-    "@strapi/strapi": "4.8.2",
-    "better-sqlite3": "8.0.1"
+    "@strapi/plugin-documentation": "^4.11.4",
+    "@strapi/plugin-i18n": "4.11.4",
+    "@strapi/plugin-users-permissions": "4.11.4",
+    "@strapi/strapi": "4.11.4",
+    "better-sqlite3": "8.0.1",
+    "jwt-decode": "^3.1.2"
   },
   "author": {
     "name": "A Strapi developer"
   },
   "strapi": {
-    "uuid": "11542605-6145-44c3-ac66-d04ea986d9e6"
+    "uuid": "919bb782-3f12-4a14-8303-f52e5b236695"
   },
   "engines": {
     "node": ">=14.19.1 <=18.x.x",

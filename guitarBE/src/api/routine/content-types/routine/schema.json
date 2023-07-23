@@ -4,7 +4,7 @@
   "info": {
     "singularName": "routine",
     "pluralName": "routines",
-    "displayName": "Routine",
+    "displayName": "routine",
     "description": ""
   },
   "options": {
@@ -12,16 +12,16 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "Name": {
+    "name": {
       "type": "string"
     },
-    "owner": {
+    "user": {
       "type": "relation",
       "relation": "oneToOne",
       "target": "plugin::users-permissions.user"
     },
     "description": {
-      "type": "text"
+      "type": "string"
     }
   }
 }

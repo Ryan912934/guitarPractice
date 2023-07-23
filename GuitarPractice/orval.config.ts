@@ -8,15 +8,6 @@ export default defineConfig({
             target: 'src/api/openApi/strapiApi.ts',
             schemas: 'src/api/model',
             client: 'react-query',
-            override: {
-                query: {
-                    useQuery: true,
-                    useInfinite: true,
-                    options: {
-                        staleTime: 10000,
-                    },
-                },
-            },
         }
     },
 });

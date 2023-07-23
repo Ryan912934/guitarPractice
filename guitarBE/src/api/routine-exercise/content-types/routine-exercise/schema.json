@@ -4,7 +4,7 @@
   "info": {
     "singularName": "routine-exercise",
     "pluralName": "routine-exercises",
-    "displayName": "RoutineExercise",
+    "displayName": "Routine-exercise",
     "description": ""
   },
   "options": {
@@ -12,21 +12,26 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "routine": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::routine.routine"
+    "order": {
+      "type": "integer"
     },
     "exercise": {
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::exercise.exercise"
     },
-    "order": {
-      "type": "integer"
+    "user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
     },
-    "duration": {
-      "type": "integer"
+    "practiceTime": {
+      "type": "decimal"
+    },
+    "routine": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::routine.routine"
     }
   }
 }

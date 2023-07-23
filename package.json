@@ -1,5 +1,9 @@
 {
+  "scripts": {
+    "dev": "concurrently \"cd guitarBE && npm run develop\" \"cd GuitarPractice && npm run dev\""
+  },
   "dependencies": {
+    "concurrently": "^8.2.0",
     "react-select": "^5.7.2"
   }
 }

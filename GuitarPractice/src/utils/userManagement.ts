@@ -1,6 +1,7 @@
 import axios from 'axios';
 import jwt_decode from "jwt-decode";
 import { apiUrl } from './apiUrl';
+import { createContext } from 'react';
 
 export async function login(username:string, password:string, setUserJWT:(jwt:string)=>void){
 
@@ -46,19 +47,21 @@ interface token {
     exp: number
 }
 
-
-interface IUsername{
-    username: string
-}
-
-export async function getUsername(jwt: string): Promise<IUsername> {
-    const data = await axios.get(`${apiUrl()}/whoami`,
-        {
-            headers: {
-                "Content-Type": 'application/json',
-                Authorization: `Bearer ${jwt}`
-            }
-        })
-
-    return data.data;
-}
+export const UserContext = createContext<UserContextType>({
+    userJWT: "a",
+    setUserJWT: (s) => {},
+    login: (a: string, b: string) => {},
+    isLoggedIn: () => {
+      return false;
+    },
+    waiting: false,
+  });
+  
+  export interface UserContextType {
+    userJWT: string | undefined;
+    setUserJWT: (s: string) => void;
+    login: (a: string, b: string) => void;
+    isLoggedIn: () => boolean;
+    userId?: number;
+    waiting: boolean;
+  }
