@@ -29,6 +29,10 @@ interface IFormInput {
     label: string;
     value: number;
   };
+  status: {
+    label: string;
+    value: string;
+  };
 }
 
 export function AddSong(props: AddArtistProps) {
@@ -40,6 +44,9 @@ export function AddSong(props: AddArtistProps) {
         data: {
           title: data.name,
           artist: data.artist.value,
+          status: {
+            status: data.status.value as any,
+          },
         },
       },
     }).then(() => {
@@ -91,6 +98,36 @@ export function AddSong(props: AddArtistProps) {
                             value: i.id,
                           } as any)
                       )}
+                      value={value}
+                      onChange={onChange}
+                    />
+                  )}
+                  rules={{ required: true }}
+                />
+
+                <Controller
+                  name="status"
+                  control={control}
+                  render={({ field: { onChange, value, ref } }) => (
+                    <Select
+                      options={[
+                        {
+                          label: "To Learn",
+                          value: "TO-LEARN",
+                        },
+                        {
+                          label: "Learning",
+                          value: "LEARNING",
+                        },
+                        {
+                          label: "Practising",
+                          value: "PRACTISING",
+                        },
+                        {
+                          label: "Forgot",
+                          value: "FORGOT",
+                        },
+                      ]}
                       value={value}
                       onChange={onChange}
                     />

@@ -6,7 +6,6 @@ import {
   IconButton,
   Spinner,
   Text,
-  VisuallyHidden,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
@@ -17,7 +16,7 @@ import {
 import { ExerciseCard } from "../../../components/ExerciseCard";
 import { AddIcon } from "@chakra-ui/icons";
 import { AddRoutineExercise } from "../../Modals/AddRoutineExercise/AddRoutineExercise";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { EditRoutineExercise } from "../../Modals/AddRoutineExercise/EditRoutineExercise";
 import { RoutineExerciseListResponseDataItem } from "../../../api/model";
 import { useQueryClient } from "@tanstack/react-query";

@@ -150,7 +150,12 @@ export const ExerciseCard: FC<ExerciseCardProps> = (
   //end
 
   return (
-    <div ref={ref} style={{ opacity }} data-handler-id={handlerId}>
+    <div
+      ref={ref}
+      className="hover:cursor-move"
+      style={{ opacity }}
+      data-handler-id={handlerId}
+    >
       <Card colorScheme="blue" className="m-3">
         <CardBody className="bg-blue-200 rounded-lg shadow-lg">
           <Stack divider={<StackDivider />} spacing="4">

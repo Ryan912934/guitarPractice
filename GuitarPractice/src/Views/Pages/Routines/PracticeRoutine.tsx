@@ -14,6 +14,7 @@ import { ExercisePracticeCard } from "../../../components/ExercisePracticeCard";
 import { FinishedPractice } from "../../Modals/FinishedPractice/FinishedPractice";
 import { ExercisesComments } from "../../../components/ExerciseComments";
 import { RoutineComments } from "../../../components/RoutineComments";
+import { ListOfSongs } from "../../../components/ListOfSongs";
 
 interface Status {
   id: number;
@@ -33,7 +34,7 @@ export function PracticeRoutine() {
     filters: {
       routine: id,
     },
-    populate: "exercise",
+    populate: "exercise,exercise.songStatus",
   });
 
   const finishedPracticeDisclosure = useDisclosure();
@@ -45,6 +46,15 @@ export function PracticeRoutine() {
   routineExercises.data!.data.data!.sort(
     (a, b) => a.attributes?.order! - b.attributes?.order!
   );
+
+  const currentExerciseStatus = () => {
+    if (!curRoutineExerciseId) {
+      return;
+    }
+    return routineExercises.data?.data.data!.filter(
+      (i) => i.id === curRoutineExerciseId
+    )[0].attributes?.exercise?.data?.attributes?.songStatus?.status;
+  };
 
   const routineExerciseComplete = (id: number) => {
     return statusList.filter((s) => s.id === id)?.[0]?.complete;
@@ -82,7 +92,6 @@ export function PracticeRoutine() {
       <div>
         <Card>
           <CardBody>
-            {totalPracticeTime} id {curRoutineExerciseId}
             <Button
               colorScheme="red"
               onClick={finishedPracticeDisclosure.onOpen}
@@ -92,7 +101,7 @@ export function PracticeRoutine() {
           </CardBody>
         </Card>
         <div className="flex">
-          <div>
+          <div className="w-[20%]">
             {routineExercises.data?.data.data?.map((re) => (
               <ExerciseCardNoDnD
                 selected={re.id === curRoutineExerciseId}
@@ -111,31 +120,38 @@ export function PracticeRoutine() {
               />
             ))}
           </div>
-          <div>
-            {curRoutineExerciseId &&
-              !routineExerciseComplete(curRoutineExerciseId) && (
-                <ExercisePracticeCard
-                  routineExercise={
+          <div className="grid col-span-2 grid-cols-2 w-[70%]">
+            <div>
+              {curRoutineExerciseId &&
+                !routineExerciseComplete(curRoutineExerciseId) && (
+                  <ExercisePracticeCard
+                    routineExercise={
+                      routineExercises.data?.data.data!.filter(
+                        (d) => d.id === curRoutineExerciseId
+                      )[0]!
+                    }
+                    finishExercise={finishExercise}
+                  />
+                )}
+            </div>
+
+            {currentExerciseStatus() && (
+              <ListOfSongs status={currentExerciseStatus()!} />
+            )}
+
+            {curRoutineExerciseId && (
+              <>
+                <ExercisesComments
+                  exerciseId={
                     routineExercises.data?.data.data!.filter(
                       (d) => d.id === curRoutineExerciseId
-                    )[0]!
+                    )[0]!.attributes?.exercise?.data?.id!
                   }
-                  finishExercise={finishExercise}
                 />
-              )}
+                <RoutineComments routineId={id} />
+              </>
+            )}
           </div>
-          {curRoutineExerciseId && (
-            <>
-              <ExercisesComments
-                exerciseId={
-                  routineExercises.data?.data.data!.filter(
-                    (d) => d.id === curRoutineExerciseId
-                  )[0]!.attributes?.exercise?.data?.id!
-                }
-              />
-              <RoutineComments routineId={id} />
-            </>
-          )}
         </div>
       </div>
       <FinishedPractice

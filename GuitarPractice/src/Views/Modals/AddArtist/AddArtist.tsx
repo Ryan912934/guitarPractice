@@ -15,6 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { usePostArtists } from "../../../api/openApi/artist/artist";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface AddArtistProps {
   isOpen: boolean;
@@ -27,6 +28,7 @@ interface IFormInput {
 
 export function AddArtist(props: AddArtistProps) {
   const { register, handleSubmit } = useForm<IFormInput>();
+  const query = useQueryClient();
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
     mutateAsync({
       data: {
@@ -39,6 +41,7 @@ export function AddArtist(props: AddArtistProps) {
         duration: 9000,
         isClosable: true,
       });
+      query.invalidateQueries();
       props.close();
     });
   };

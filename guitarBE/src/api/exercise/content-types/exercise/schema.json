@@ -24,6 +24,11 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "plugin::users-permissions.user"
+    },
+    "songStatus": {
+      "type": "component",
+      "repeatable": false,
+      "component": "learning-type.learning-type"
     }
   }
 }
