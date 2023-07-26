@@ -5,6 +5,7 @@
  * OpenAPI spec version: 1.0.0
  */
 import type { ExercisePracticeExerciseDataAttributesUser } from './exercisePracticeExerciseDataAttributesUser';
+import type { ExercisePracticeExerciseDataAttributesSongStatus } from './exercisePracticeExerciseDataAttributesSongStatus';
 import type { ExercisePracticeExerciseDataAttributesCreatedBy } from './exercisePracticeExerciseDataAttributesCreatedBy';
 import type { ExercisePracticeExerciseDataAttributesUpdatedBy } from './exercisePracticeExerciseDataAttributesUpdatedBy';
 
@@ -12,6 +13,7 @@ export type ExercisePracticeExerciseDataAttributes = {
   name?: string;
   description?: string;
   user?: ExercisePracticeExerciseDataAttributesUser;
+  songStatus?: ExercisePracticeExerciseDataAttributesSongStatus;
   createdAt?: string;
   updatedAt?: string;
   createdBy?: ExercisePracticeExerciseDataAttributesCreatedBy;

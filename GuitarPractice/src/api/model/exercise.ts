@@ -5,6 +5,7 @@
  * OpenAPI spec version: 1.0.0
  */
 import type { ExerciseUser } from './exerciseUser';
+import type { LearningTypeLearningTypeComponent } from './learningTypeLearningTypeComponent';
 import type { ExerciseCreatedBy } from './exerciseCreatedBy';
 import type { ExerciseUpdatedBy } from './exerciseUpdatedBy';
 
@@ -12,6 +13,7 @@ export interface Exercise {
   name: string;
   description: string;
   user?: ExerciseUser;
+  songStatus?: LearningTypeLearningTypeComponent;
   createdAt?: string;
   updatedAt?: string;
   createdBy?: ExerciseCreatedBy;

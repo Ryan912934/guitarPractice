@@ -5,6 +5,7 @@
  * OpenAPI spec version: 1.0.0
  */
 import type { RoutineExerciseExerciseDataAttributesUser } from './routineExerciseExerciseDataAttributesUser';
+import type { RoutineExerciseExerciseDataAttributesSongStatus } from './routineExerciseExerciseDataAttributesSongStatus';
 import type { RoutineExerciseExerciseDataAttributesCreatedBy } from './routineExerciseExerciseDataAttributesCreatedBy';
 import type { RoutineExerciseExerciseDataAttributesUpdatedBy } from './routineExerciseExerciseDataAttributesUpdatedBy';
 
@@ -12,6 +13,7 @@ export type RoutineExerciseExerciseDataAttributes = {
   name?: string;
   description?: string;
   user?: RoutineExerciseExerciseDataAttributesUser;
+  songStatus?: RoutineExerciseExerciseDataAttributesSongStatus;
   createdAt?: string;
   updatedAt?: string;
   createdBy?: RoutineExerciseExerciseDataAttributesCreatedBy;

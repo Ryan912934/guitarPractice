@@ -6,9 +6,11 @@
  */
 import type { SongRequestDataUser } from './songRequestDataUser';
 import type { SongRequestDataArtist } from './songRequestDataArtist';
+import type { LearningTypeLearningTypeComponent } from './learningTypeLearningTypeComponent';
 
 export type SongRequestData = {
   title: string;
   user?: SongRequestDataUser;
   artist?: SongRequestDataArtist;
+  status?: LearningTypeLearningTypeComponent;
 };

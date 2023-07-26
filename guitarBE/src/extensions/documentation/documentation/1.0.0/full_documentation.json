@@ -21,7 +21,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2023-07-23T20:55:14.714Z"
+    "x-generation-date": "2023-07-26T18:04:48.774Z"
   },
   "servers": [
     {
@@ -771,6 +771,9 @@
                   }
                 ],
                 "example": "string or id"
+              },
+              "songStatus": {
+                "$ref": "#/components/schemas/LearningTypeLearningTypeComponent"
               }
             }
           }
@@ -1340,6 +1343,9 @@
               }
             }
           },
+          "songStatus": {
+            "$ref": "#/components/schemas/LearningTypeLearningTypeComponent"
+          },
           "createdAt": {
             "type": "string",
             "format": "date-time"
@@ -1403,6 +1409,23 @@
           },
           "meta": {
             "type": "object"
+          }
+        }
+      },
+      "LearningTypeLearningTypeComponent": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "TO-LEARN",
+              "LEARNING",
+              "PRACTISING",
+              "FORGOT"
+            ]
           }
         }
       },
@@ -2020,6 +2043,23 @@
                                 }
                               }
                             }
+                          }
+                        }
+                      },
+                      "songStatus": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "number"
+                          },
+                          "status": {
+                            "type": "string",
+                            "enum": [
+                              "TO-LEARN",
+                              "LEARNING",
+                              "PRACTISING",
+                              "FORGOT"
+                            ]
                           }
                         }
                       },
@@ -3442,6 +3482,23 @@
                           }
                         }
                       },
+                      "songStatus": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "number"
+                          },
+                          "status": {
+                            "type": "string",
+                            "enum": [
+                              "TO-LEARN",
+                              "LEARNING",
+                              "PRACTISING",
+                              "FORGOT"
+                            ]
+                          }
+                        }
+                      },
                       "createdAt": {
                         "type": "string",
                         "format": "date-time"
@@ -4460,6 +4517,9 @@
                   }
                 ],
                 "example": "string or id"
+              },
+              "status": {
+                "$ref": "#/components/schemas/LearningTypeLearningTypeComponent"
               }
             }
           }
@@ -5104,6 +5164,9 @@
                 }
               }
             }
+          },
+          "status": {
+            "$ref": "#/components/schemas/LearningTypeLearningTypeComponent"
           },
           "createdAt": {
             "type": "string",

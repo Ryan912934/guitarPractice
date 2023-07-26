@@ -60,14 +60,14 @@ export function ViewAllRoutines() {
         );
       },
     }),
-    columnHelper.accessor((row) => row.id, {
+    columnHelper.accessor((row) => row, {
       id: "Practice",
       cell: (info) => {
         return (
           <>
             <IconButton
               onClick={() => {
-                navigate(`${info.getValue()}/practice`);
+                navigate(`${info.getValue().id}/practice`);
               }}
               colorScheme="green"
               aria-label="Practice Routine"

@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_learning_type_learning_types",
+  "info": {
+    "displayName": "learning-type"
+  },
+  "options": {},
+  "attributes": {
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "TO-LEARN",
+        "LEARNING",
+        "PRACTISING",
+        "FORGOT"
+      ],
+      "required": true
+    }
+  }
+}

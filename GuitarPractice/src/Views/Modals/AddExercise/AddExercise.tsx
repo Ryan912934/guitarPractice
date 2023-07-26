@@ -15,6 +15,7 @@ import {
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { usePostExercises } from "../../../api/openApi/exercise/exercise";
 import { useQueryClient } from "@tanstack/react-query";
+import Select from "react-select";
 
 interface AddExerciseProps {
   isOpen: boolean;
@@ -24,16 +25,36 @@ interface AddExerciseProps {
 interface IFormInput {
   name: string;
   description: string;
+  songStatus: {
+    label: string;
+    value: string;
+  };
 }
 
 export function AddExercise(props: AddExerciseProps) {
   const { register, handleSubmit, control } = useForm<IFormInput>();
   const query = useQueryClient();
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    console.log(data);
+    console.log(
+      JSON.stringify({
+        data: {
+          data: {
+            ...data,
+            songStatus: {
+              status: data.songStatus as any,
+            },
+          },
+        },
+      })
+    );
     mutateAsync({
       data: {
-        data: data,
+        data: {
+          ...data,
+          songStatus: {
+            status: data.songStatus.value as any,
+          },
+        },
       },
     }).then(() => {
       toast({
@@ -80,6 +101,37 @@ export function AddExercise(props: AddExerciseProps) {
                     />
                   )}
                   rules={{ required: true }}
+                />
+
+                <Controller
+                  name="songStatus"
+                  control={control}
+                  render={({ field: { onChange, value, ref } }) => (
+                    <Select
+                      options={
+                        [
+                          {
+                            label: "To Learn",
+                            value: "TO-LEARN",
+                          },
+                          {
+                            label: "Learning",
+                            value: "LEARNING",
+                          },
+                          {
+                            label: "Practising",
+                            value: "PRACTISING",
+                          },
+                          {
+                            label: "Forgot",
+                            value: "FORGOT",
+                          },
+                        ] as any
+                      }
+                      value={value as any}
+                      onChange={onChange}
+                    />
+                  )}
                 />
               </ModalBody>
 
