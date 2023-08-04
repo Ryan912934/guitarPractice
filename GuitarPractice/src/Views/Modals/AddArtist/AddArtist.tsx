@@ -16,6 +16,7 @@ import {
 import { SubmitHandler, useForm } from "react-hook-form";
 import { usePostArtists } from "../../../api/openApi/artist/artist";
 import { useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
 
 interface AddArtistProps {
   isOpen: boolean;
@@ -27,7 +28,7 @@ interface IFormInput {
 }
 
 export function AddArtist(props: AddArtistProps) {
-  const { register, handleSubmit } = useForm<IFormInput>();
+  const { register, handleSubmit, reset } = useForm<IFormInput>();
   const query = useQueryClient();
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
     mutateAsync({
@@ -43,12 +44,16 @@ export function AddArtist(props: AddArtistProps) {
       });
       query.invalidateQueries();
       props.close();
+      reset();
     });
   };
 
+  useEffect(() => {
+    reset();
+  }, [props.isOpen])
+
   const { isLoading, mutateAsync } = usePostArtists();
   const toast = useToast();
-
   return (
     <Modal
       blockScrollOnMount={false}

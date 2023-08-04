@@ -16,6 +16,7 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { usePostExercises } from "../../../api/openApi/exercise/exercise";
 import { useQueryClient } from "@tanstack/react-query";
 import Select from "react-select";
+import { useEffect } from "react";
 
 interface AddExerciseProps {
   isOpen: boolean;
@@ -32,7 +33,7 @@ interface IFormInput {
 }
 
 export function AddExercise(props: AddExerciseProps) {
-  const { register, handleSubmit, control } = useForm<IFormInput>();
+  const { register, handleSubmit, control, reset } = useForm<IFormInput>();
   const query = useQueryClient();
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
     console.log(
@@ -52,7 +53,7 @@ export function AddExercise(props: AddExerciseProps) {
         data: {
           ...data,
           songStatus: {
-            status: data.songStatus.value as any,
+            status: data.songStatus?.value as any,
           },
         },
       },
@@ -70,6 +71,12 @@ export function AddExercise(props: AddExerciseProps) {
 
   const { isLoading, mutateAsync } = usePostExercises();
   const toast = useToast();
+
+  useEffect(() => {
+    reset();
+  }, [props.isOpen])
+
+
 
   return (
     <Modal
@@ -108,6 +115,8 @@ export function AddExercise(props: AddExerciseProps) {
                   control={control}
                   render={({ field: { onChange, value, ref } }) => (
                     <Select
+                      placeholder="Show Songs?"
+                      isClearable={true}
                       options={
                         [
                           {

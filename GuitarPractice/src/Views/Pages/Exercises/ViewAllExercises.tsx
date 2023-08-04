@@ -38,6 +38,12 @@ export function ViewAllExercises() {
         return <Text fontSize="xl">{info.getValue()}</Text>;
       },
     }),
+    columnHelper.accessor((row) => row.attributes, {
+      id: "Show Song?",
+      cell: (info) => {
+        return <Text fontSize="xl">{info.getValue()?.songStatus?.status || "-"}</Text>;
+      },
+    }),
   ];
 
   const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
@@ -65,6 +71,7 @@ export function ViewAllExercises() {
       "$or][0][name][$containsi": searchVal,
       "$or][1][description][$containsi": searchVal,
     },
+    populate: "songStatus"
   });
 
   if (isLoading) {

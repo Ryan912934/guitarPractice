@@ -17,6 +17,7 @@ import { usePostSongs } from "../../../api/openApi/song/song";
 import { useGetArtists } from "../../../api/openApi/artist/artist";
 import Select from "react-select";
 import { useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
 
 interface AddArtistProps {
   isOpen: boolean;
@@ -36,7 +37,7 @@ interface IFormInput {
 }
 
 export function AddSong(props: AddArtistProps) {
-  const { register, handleSubmit, control } = useForm<IFormInput>();
+  const { register, handleSubmit, control, reset } = useForm<IFormInput>();
   const query = useQueryClient();
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
     mutateAsync({
@@ -60,6 +61,10 @@ export function AddSong(props: AddArtistProps) {
       query.invalidateQueries();
     });
   };
+
+  useEffect(() => {
+    reset();
+  }, [props.isOpen])
 
   const { isLoading, mutateAsync } = usePostSongs();
   const toast = useToast();
@@ -93,10 +98,10 @@ export function AddSong(props: AddArtistProps) {
                     <Select
                       options={data?.data.data!.map(
                         (i) =>
-                          ({
-                            label: i.attributes?.name,
-                            value: i.id,
-                          } as any)
+                        ({
+                          label: i.attributes?.name,
+                          value: i.id,
+                        } as any)
                       )}
                       value={value}
                       onChange={onChange}

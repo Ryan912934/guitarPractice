@@ -15,6 +15,7 @@ import {
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useQueryClient } from "@tanstack/react-query";
 import { usePostRoutines } from "../../../api/openApi/routine/routine";
+import { useEffect } from "react";
 
 interface AddRoutineProps {
   isOpen: boolean;
@@ -27,7 +28,7 @@ interface IFormInput {
 }
 
 export function AddRoutine(props: AddRoutineProps) {
-  const { register, handleSubmit, control } = useForm<IFormInput>();
+  const { register, handleSubmit, control, reset } = useForm<IFormInput>();
   const query = useQueryClient();
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
     mutateAsync({
@@ -48,6 +49,11 @@ export function AddRoutine(props: AddRoutineProps) {
 
   const { isLoading, mutateAsync } = usePostRoutines();
   const toast = useToast();
+
+  useEffect(() => {
+    reset();
+  }, [props.isOpen])
+
 
   return (
     <Modal

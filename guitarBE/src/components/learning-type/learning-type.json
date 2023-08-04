@@ -1,7 +1,8 @@
 {
   "collectionName": "components_learning_type_learning_types",
   "info": {
-    "displayName": "learning-type"
+    "displayName": "learning-type",
+    "description": ""
   },
   "options": {},
   "attributes": {
@@ -13,7 +14,7 @@
         "PRACTISING",
         "FORGOT"
       ],
-      "required": true
+      "required": false
     }
   }
 }
