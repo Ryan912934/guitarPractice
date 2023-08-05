@@ -18,15 +18,13 @@ export function ListOfSongs(props: ListOfSongsProps) {
     pageSize: 20,
   });
 
-  console.log(props);
-
   const { data, isFetching } = useGetSongs({
     "pagination[page]": pageIndex + 1,
     "pagination[pageSize]": pageSize,
     filters: {
-      "status.status": props.status,
+      "status][status": props.status,
     },
-    populate: "artist",
+    populate: "artist,status",
   });
 
   const columnHelper = createColumnHelper<SongListResponseDataItem>();

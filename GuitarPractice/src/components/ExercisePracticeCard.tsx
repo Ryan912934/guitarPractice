@@ -13,11 +13,13 @@ import {
 import { RoutineExerciseListResponseDataItem } from "../api/model";
 import { usePostExercisePractices } from "../api/openApi/exercise-practice/exercise-practice";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useTimer } from "../hooks/useTimers";
+import { TimerReturn, useTimer } from "../hooks/useTimers";
+import { useEffect } from "react";
 
 interface ExercisePracticeCardProps {
   routineExercise: RoutineExerciseListResponseDataItem;
   finishExercise: (seconds: number) => void;
+  timer: TimerReturn
 }
 
 interface IFormInput {
@@ -33,14 +35,12 @@ export function ExercisePracticeCard(props: ExercisePracticeCardProps) {
     isRunning,
     start,
     pause,
-    reset,
-  } = useTimer();
+  } = props.timer;
 
-  const { register, handleSubmit, control } = useForm<IFormInput>();
+  const { register, handleSubmit, control, reset } = useForm<IFormInput>();
 
   const toast = useToast();
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    console.log(data);
     mutateAsync({
       data: {
         data: {
@@ -59,6 +59,10 @@ export function ExercisePracticeCard(props: ExercisePracticeCardProps) {
       props.finishExercise(totalSeconds);
     });
   };
+
+  useEffect(() => {
+    reset()
+  }, [props.routineExercise])
 
   const { isLoading, mutateAsync } = usePostExercisePractices();
 
@@ -110,7 +114,7 @@ export function ExercisePracticeCard(props: ExercisePracticeCardProps) {
                 type="submit"
                 colorScheme={
                   totalSeconds >
-                  props.routineExercise.attributes?.practiceTime! * 60
+                    props.routineExercise.attributes?.practiceTime! * 60
                     ? "green"
                     : "gray"
                 }

@@ -4,17 +4,20 @@ import { useGetRoutineExercises } from "../../../api/openApi/routine-exercise/ro
 import {
   Button,
   Card,
+  Text,
   CardBody,
   Spinner,
   useDisclosure,
+  Flex,
 } from "@chakra-ui/react";
 import { ExerciseCardNoDnD } from "../../../components/ExerciseCardNoDnD";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ExercisePracticeCard } from "../../../components/ExercisePracticeCard";
 import { FinishedPractice } from "../../Modals/FinishedPractice/FinishedPractice";
 import { ExercisesComments } from "../../../components/ExerciseComments";
 import { RoutineComments } from "../../../components/RoutineComments";
 import { ListOfSongs } from "../../../components/ListOfSongs";
+import { useTimer } from "../../../hooks/useTimers";
 
 interface Status {
   id: number;
@@ -28,7 +31,7 @@ export function PracticeRoutine() {
   const [curRoutineExerciseId, setCurRoutineExerciseId] = useState<number>();
 
   const [totalPracticeTime, setTotalPracticeTime] = useState(0);
-
+  const timer = useTimer()
   const routine = useGetRoutinesId(id);
   const routineExercises = useGetRoutineExercises({
     filters: {
@@ -38,6 +41,10 @@ export function PracticeRoutine() {
   });
 
   const finishedPracticeDisclosure = useDisclosure();
+
+  useEffect(() => {
+    timer.reset();
+  }, [curRoutineExerciseId])
 
   if (routine.isFetching || routineExercises.isFetching) {
     return <Spinner size="xl" />;
@@ -78,7 +85,6 @@ export function PracticeRoutine() {
     const notFinished = routineExercises.data!.data.data!.filter(
       (i) => !routineExerciseComplete(i.id!) && i.id !== curRoutineExerciseId
     );
-    console.log("not fin");
     console.log(notFinished);
     if (notFinished.length === 0) {
       finishedPracticeDisclosure.onOpen();
@@ -87,17 +93,35 @@ export function PracticeRoutine() {
     }
   };
 
+  const pastTime = () => {
+
+    const d = routineExercises.data?.data.data!.filter(
+      (d) => d.id === curRoutineExerciseId
+    )[0]
+
+    if (!d) return false;
+
+    return timer.totalSeconds > (d.attributes!.practiceTime! * 60)
+
+  }
+
   return (
     <>
       <div>
         <Card>
           <CardBody>
-            <Button
-              colorScheme="red"
-              onClick={finishedPracticeDisclosure.onOpen}
-            >
-              Finish Practice Early
-            </Button>
+            <Flex>
+              {timer.isRunning ? <Text fontSize='4xl' as='i'> Timer Running </Text> : <Text fontSize='4xl' as='b' color='red'> Timer Paused </Text>}
+              {pastTime() && <Text fontSize='4xl' as='i'> - Past Suggested Time </Text>}
+            </Flex>
+            <Flex>
+              <Button
+                colorScheme="red"
+                onClick={finishedPracticeDisclosure.onOpen}
+              >
+                Finish Practice Early
+              </Button>
+            </Flex>
           </CardBody>
         </Card>
         <div className="flex">
@@ -110,8 +134,8 @@ export function PracticeRoutine() {
                   routineExerciseComplete(re.id!)
                     ? "bg-green-200"
                     : re.id! === curRoutineExerciseId
-                    ? "bg-yellow-300"
-                    : "bg-yellow-200"
+                      ? "bg-yellow-300"
+                      : "bg-yellow-200"
                 }
                 exerciseData={re}
                 onClick={() => {
@@ -125,6 +149,7 @@ export function PracticeRoutine() {
               {curRoutineExerciseId &&
                 !routineExerciseComplete(curRoutineExerciseId) && (
                   <ExercisePracticeCard
+                    timer={timer}
                     routineExercise={
                       routineExercises.data?.data.data!.filter(
                         (d) => d.id === curRoutineExerciseId
