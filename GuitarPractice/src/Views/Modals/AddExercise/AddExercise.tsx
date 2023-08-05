@@ -12,15 +12,18 @@ import {
   Textarea,
   useToast,
 } from "@chakra-ui/react";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { usePostExercises } from "../../../api/openApi/exercise/exercise";
+import { Controller, set, SubmitHandler, useForm } from "react-hook-form";
+import { usePostExercises, usePutExercisesId } from "../../../api/openApi/exercise/exercise";
 import { useQueryClient } from "@tanstack/react-query";
 import Select from "react-select";
 import { useEffect } from "react";
+import { ExerciseListResponseDataItem } from "../../../api/model";
 
 interface AddExerciseProps {
   isOpen: boolean;
   close: () => void;
+  updateId?: number;
+  exerciseData?: ExerciseListResponseDataItem
 }
 
 interface IFormInput {
@@ -33,50 +36,70 @@ interface IFormInput {
 }
 
 export function AddExercise(props: AddExerciseProps) {
-  const { register, handleSubmit, control, reset } = useForm<IFormInput>();
+  const { register, handleSubmit, control, reset, setValue } = useForm<IFormInput>();
   const query = useQueryClient();
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    console.log(
-      JSON.stringify({
+    if (props.updateId) {
+      updateExercise.mutateAsync({
+        id: props.updateId,
         data: {
           data: {
             ...data,
             songStatus: {
-              status: data.songStatus as any,
+              status: data.songStatus?.value as any,
+            },
+
+
+          }
+        }
+      }).then(() => {
+        toast({
+          title: "Exercise Updated",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+        });
+        props.close();
+        query.invalidateQueries();
+      })
+
+    } else {
+      createExercise.mutateAsync({
+        data: {
+          data: {
+            ...data,
+            songStatus: {
+              status: data.songStatus?.value as any,
             },
           },
         },
-      })
-    );
-    mutateAsync({
-      data: {
-        data: {
-          ...data,
-          songStatus: {
-            status: data.songStatus?.value as any,
-          },
-        },
-      },
-    }).then(() => {
-      toast({
-        title: "Artist Added.",
-        status: "success",
-        duration: 9000,
-        isClosable: true,
+      }).then(() => {
+        toast({
+          title: "Exercise Added",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+        });
+        props.close();
+        query.invalidateQueries();
       });
-      props.close();
-      query.invalidateQueries();
-    });
+    }
   };
 
-  const { isLoading, mutateAsync } = usePostExercises();
+  const createExercise = usePostExercises();
+  const updateExercise = usePutExercisesId();
   const toast = useToast();
 
   useEffect(() => {
     reset();
+    if (props.updateId) {
+      setValue('name', props.exerciseData!.attributes?.name || '')
+      setValue('description', props.exerciseData!.attributes?.description || '')
+      setValue('songStatus.value', props.exerciseData!.attributes?.songStatus?.status || '')
+    }
   }, [props.isOpen])
 
-
+  const isLoading = createExercise.isLoading || updateExercise.isLoading;
 
   return (
     <Modal

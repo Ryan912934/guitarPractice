@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-interface TimerReturn {
+export interface TimerReturn {
   totalSeconds: number;
   seconds: number;
   minutes: number;
@@ -29,13 +29,6 @@ export function useTimer(): TimerReturn {
       setIntervalT(i);
     }
   }, [timerRunning, startTime]);
-
-  const resetAndStart = () => {
-    setTimeToAdd(0);
-    setStartTime(new Date().getTime());
-    setCurTime(0);
-    setTimerRunning(true);
-  };
 
   const resetAndPause = () => {
     setTimeToAdd(0);

@@ -3,7 +3,7 @@ import {
   PaginationState,
   createColumnHelper,
 } from "@tanstack/react-table";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -25,6 +25,7 @@ import { AddExercise } from "../../Modals/AddExercise/AddExercise";
 export function ViewAllExercises() {
   const columnHelper = createColumnHelper<ExerciseListResponseDataItem>();
 
+  const [exerciseData, setExerciseData] = useState<ExerciseListResponseDataItem>();
   const columns = [
     columnHelper.accessor((row) => row.attributes?.name, {
       id: "Exercise Name",
@@ -44,7 +45,19 @@ export function ViewAllExercises() {
         return <Text fontSize="xl">{info.getValue()?.songStatus?.status || "-"}</Text>;
       },
     }),
+    columnHelper.accessor((row) => row, {
+      id: "Update",
+      cell: (info) => {
+        return <Button onClick={() => {
+          setUpdateId(info.getValue().id)
+          setExerciseData(info.getValue)
+          addExerciseDisclosure.onOpen()
+        }}>Update </Button>;
+      },
+    }),
   ];
+
+
 
   const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
     pageIndex: 0,
@@ -63,6 +76,14 @@ export function ViewAllExercises() {
     { maxWait: 2000 }
   );
 
+  const [updateId, setUpdateId] = useState<number>();
+  useEffect(() => {
+    if (!addExerciseDisclosure.isOpen) {
+      setUpdateId(undefined);
+      setExerciseData(undefined)
+    }
+  }, [addExerciseDisclosure.isOpen])
+
   const { data, isLoading, isError } = useGetExercises({
     sort: "name",
     "pagination[page]": pageIndex + 1,
@@ -73,7 +94,6 @@ export function ViewAllExercises() {
     },
     populate: "songStatus"
   });
-
   if (isLoading) {
     return <Spinner size="xl" />;
   }
@@ -115,6 +135,8 @@ export function ViewAllExercises() {
       <AddExercise
         close={addExerciseDisclosure.onClose}
         isOpen={addExerciseDisclosure.isOpen}
+        updateId={updateId}
+        exerciseData={exerciseData}
       />
     </>
   );
