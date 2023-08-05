@@ -73,6 +73,7 @@ export function AddSong(props: AddArtistProps) {
 
   return (
     <Modal
+      size="xl"
       blockScrollOnMount={false}
       isOpen={props.isOpen}
       onClose={props.close}
@@ -96,6 +97,7 @@ export function AddSong(props: AddArtistProps) {
                   control={control}
                   render={({ field: { onChange, value, ref } }) => (
                     <Select
+                      placeholder="Artist"
                       options={data?.data.data!.map(
                         (i) =>
                         ({
@@ -115,6 +117,7 @@ export function AddSong(props: AddArtistProps) {
                   control={control}
                   render={({ field: { onChange, value, ref } }) => (
                     <Select
+                      placeholder="Status"
                       options={[
                         {
                           label: "To Learn",

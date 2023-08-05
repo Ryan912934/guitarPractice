@@ -80,6 +80,7 @@ export function AddExercise(props: AddExerciseProps) {
 
   return (
     <Modal
+      size="xl"
       blockScrollOnMount={false}
       isOpen={props.isOpen}
       onClose={props.close}
