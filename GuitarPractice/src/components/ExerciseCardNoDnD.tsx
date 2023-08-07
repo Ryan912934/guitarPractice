@@ -37,9 +37,8 @@ export function ExerciseCardNoDnD(props: ExerciseCardNoDnDProps) {
             </Heading>
             <Text pt="2" fontSize="sm">
               {
-                props.exerciseData.attributes?.exercise?.data!.attributes
-                  ?.description
-              }
+                props.exerciseData.attributes?.practiceTime
+              } Minutes
             </Text>
           </Box>
         </Stack>

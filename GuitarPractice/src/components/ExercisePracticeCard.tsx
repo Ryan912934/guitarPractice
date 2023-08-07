@@ -47,6 +47,7 @@ export function ExercisePracticeCard(props: ExercisePracticeCardProps) {
           notes: data.comments,
           time: totalSeconds / 60,
           exercise: props.routineExercise.attributes?.exercise?.data?.id,
+          expectedTime: props.routineExercise.attributes?.practiceTime
         },
       },
     }).then(() => {

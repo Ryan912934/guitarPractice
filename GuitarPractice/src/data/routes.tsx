@@ -4,6 +4,7 @@ import { PracticeRoutine } from "../Views/Pages/Routines/PracticeRoutine";
 import { ViewAllRoutines } from "../Views/Pages/Routines/ViewAllRoutines";
 import { ViewOneRoutine } from "../Views/Pages/Routines/ViewOneRoutine";
 import { Songs } from "../Views/Pages/Songs/Songs";
+import { Stats } from "../Views/Pages/Stats/Stats";
 
 interface RouteType {
   to: string;
@@ -56,4 +57,11 @@ export const routes: RouteType[] = [
     navBar: false,
     element: <PracticeRoutine />,
   },
+  {
+    to: "/stats",
+    name: "Stats",
+    loggedIn: true,
+    navBar: true,
+    element: <Stats />
+  }
 ];

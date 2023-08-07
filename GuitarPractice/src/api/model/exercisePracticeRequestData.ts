@@ -12,4 +12,5 @@ export type ExercisePracticeRequestData = {
   exercise?: ExercisePracticeRequestDataExercise;
   user?: ExercisePracticeRequestDataUser;
   time?: number;
+  expectedTime?: number;
 };

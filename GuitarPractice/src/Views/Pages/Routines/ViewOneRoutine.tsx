@@ -129,6 +129,9 @@ export function ViewOneRoutine() {
         <Heading>Routine - {data?.data.data?.attributes?.name}</Heading>
         <Text fontSize="lg">{data?.data.data?.attributes?.description}</Text>
         <Text>Number of exercises {exerciseData.data?.data.data?.length}</Text>
+        <Text> Aproximate Time {exerciseData.data?.data.data?.reduce((acc, cur) => {
+          return acc + (cur.attributes?.practiceTime || 0)
+        }, 0)} Minutes</Text>
         <Button
           colorScheme="green"
           onClick={clickSave}

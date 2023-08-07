@@ -14,4 +14,5 @@ export type RoutinePracticeRequestData = {
   comments?: string;
   numberOfExercises?: number;
   numberOfSkippedExercises?: number;
+  expectedTime?: number;
 };

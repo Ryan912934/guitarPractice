@@ -24,6 +24,7 @@ interface FinishedPracticeProps {
   totalTimeSeconds: number;
   completedExercises: number;
   skippedExercises: number;
+  expectedTime: number;
 }
 
 interface IFormInput {
@@ -42,6 +43,7 @@ export function FinishedPractice(props: FinishedPracticeProps) {
           comments: data.comments,
           numberOfExercises: props.completedExercises,
           numberOfSkippedExercises: props.skippedExercises,
+          expectedTime: props.expectedTime
         },
       },
     }).then(() => {

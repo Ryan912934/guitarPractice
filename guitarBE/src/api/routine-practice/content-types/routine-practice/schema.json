@@ -33,6 +33,9 @@
     },
     "numberOfSkippedExercises": {
       "type": "integer"
+    },
+    "expectedTime": {
+      "type": "integer"
     }
   }
 }

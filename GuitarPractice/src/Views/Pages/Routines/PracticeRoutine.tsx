@@ -44,6 +44,7 @@ export function PracticeRoutine() {
 
   useEffect(() => {
     timer.reset();
+    timer.start();
   }, [curRoutineExerciseId])
 
   if (routine.isFetching || routineExercises.isFetching) {
@@ -110,6 +111,11 @@ export function PracticeRoutine() {
       <div>
         <Card>
           <CardBody>
+            <Flex>
+              <Text>
+              Total Current Practice Time {((totalPracticeTime/60) + (timer.seconds/60)).toFixed(2) }
+              </Text>
+            </Flex>
             <Flex>
               {timer.isRunning ? <Text fontSize='4xl' as='i'> Timer Running </Text> : <Text fontSize='4xl' as='b' color='red'> Timer Paused </Text>}
               {pastTime() && <Text fontSize='4xl' as='i'> - Past Suggested Time </Text>}
@@ -189,6 +195,9 @@ export function PracticeRoutine() {
           routineExercises.data!.data.data!.length -
           statusList.filter((i) => i.complete).length
         }
+        expectedTime={routineExercises.data!.data.data!.reduce((acc, cur) => {
+          return acc + (cur.attributes?.practiceTime || 0)
+        }, 0)}
       />
     </>
   );
