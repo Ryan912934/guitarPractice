@@ -14,6 +14,7 @@ export interface ExercisePractice {
   exercise?: ExercisePracticeExercise;
   user?: ExercisePracticeUser;
   time?: number;
+  expectedTime?: number;
   createdAt?: string;
   updatedAt?: string;
   createdBy?: ExercisePracticeCreatedBy;
