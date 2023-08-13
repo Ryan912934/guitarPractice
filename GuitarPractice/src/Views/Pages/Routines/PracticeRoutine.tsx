@@ -47,7 +47,7 @@ export function PracticeRoutine() {
     timer.start();
   }, [curRoutineExerciseId])
 
-  if (routine.isFetching || routineExercises.isFetching) {
+  if (!routine.data || !routineExercises.data) {
     return <Spinner size="xl" />;
   }
 
@@ -86,7 +86,7 @@ export function PracticeRoutine() {
     const notFinished = routineExercises.data!.data.data!.filter(
       (i) => !routineExerciseComplete(i.id!) && i.id !== curRoutineExerciseId
     );
-    console.log(notFinished);
+
     if (notFinished.length === 0) {
       finishedPracticeDisclosure.onOpen();
     } else {
@@ -113,7 +113,7 @@ export function PracticeRoutine() {
           <CardBody>
             <Flex>
               <Text>
-              Total Current Practice Time {((totalPracticeTime/60) + (timer.seconds/60)).toFixed(2) }
+                Total Current Practice Time {((totalPracticeTime / 60) + (timer.seconds / 60)).toFixed(2)}
               </Text>
             </Flex>
             <Flex>
