@@ -21,6 +21,8 @@ export async function login(username:string, password:string, setUserJWT:(jwt:st
 
 export function isLoggedIn(userJWT:string|undefined, setJwt:(s:string|undefined)=>void):boolean{
     let jwt;
+  console.log('checking for jwt')
+  console.log(userJWT)
 
     jwt = userJWT ?? jwt;
 

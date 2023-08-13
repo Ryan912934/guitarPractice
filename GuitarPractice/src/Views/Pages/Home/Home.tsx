@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { UserContext, UserContextType } from "../../../utils/userManagement";
+import { LoggedInHome } from "./LoggedInHome";
 
 function Home() {
   const userContext = useContext<UserContextType>(UserContext);
@@ -7,6 +8,11 @@ function Home() {
   if (userContext.waiting) {
     return <p>Logging In</p>;
   }
+
+  if(userContext.isLoggedIn()){
+    return <LoggedInHome />
+  } 
+
 
   return (
     <div>
